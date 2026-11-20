@@ -1,0 +1,39 @@
+# Dependencies
+node_modules/
+/.pnp
+.pnp.js
+
+# Next.js build output
+.next/
+out/
+build/
+dist/
+
+# Environment files and secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Raw originals & large media dumps
+/raw/
+raw/
+*.raw
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Vercel deployment
+.vercel/
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
