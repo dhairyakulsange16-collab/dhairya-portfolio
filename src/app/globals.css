@@ -3,8 +3,26 @@
 @tailwind utilities;
 
 :root {
-  --background: #030712;
-  --background-deep: #050B2E;
+  /* Dark Glass Gradient Backdrop Palette */
+  --bg-base: #020308;
+  --blue-deep: #0A2A8F;
+  --blue-electric: #1E5BFF;
+  --blue-sky: #3FA9E8;
+  --ice: #B7DDF0;
+  --teal: #3FC1B5;
+  --cyan: #5CF0FF;
+  --rim-warm: #F2C9A0;
+  --sand: #D9D2B8;
+
+  /* Animation Master Speed Multiplier (1 = default, 2 = 2x faster, 0.5 = 2x slower) */
+  --bg-speed: 1;
+
+  /* Reading Scrim dynamic opacity */
+  --scrim: 0;
+
+  /* Theme tokens */
+  --background: #020308;
+  --background-deep: #04060F;
   --foreground: #FFFFFF;
   --primary: #1E5BFF;
   --accent: #22D3EE;
@@ -18,14 +36,14 @@
 
 html {
   scroll-behavior: smooth;
-  background-color: #030712;
+  background-color: #020308;
   color: #FFFFFF;
   color-scheme: dark;
 }
 
 body {
   overflow-x: hidden;
-  background: radial-gradient(circle at 50% 0%, #050B2E 0%, #030712 60%, #02040A 100%);
+  background-color: var(--bg-base);
   min-height: 100vh;
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
@@ -51,25 +69,53 @@ body {
   color: #030712;
 }
 
-/* Glassmorphism Panels */
+/* Minimal Glass Panels & Cards matching reference */
 .glass-panel {
-  background: rgba(5, 11, 46, 0.55);
+  background: rgba(255, 255, 255, 0.03);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(34, 211, 238, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
 }
 
 .glass-card {
-  background: rgba(5, 11, 46, 0.5);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(34, 211, 238, 0.12);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-card:hover {
-  border-color: rgba(34, 211, 238, 0.4);
-  box-shadow: 0 10px 30px -10px rgba(30, 91, 255, 0.25), 0 0 15px -3px rgba(34, 211, 238, 0.2);
+  border-color: rgba(34, 211, 238, 0.35);
+  background: rgba(255, 255, 255, 0.045);
+  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12), 0 0 20px -3px rgba(34, 211, 238, 0.2);
+}
+
+/* Minimalist Button Styles */
+.btn-primary-pill {
+  background: #FFFFFF;
+  color: #020308;
+  font-weight: 500;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-primary-pill:hover {
+  background: #B7DDF0;
+  box-shadow: 0 0 20px rgba(183, 221, 240, 0.4);
+}
+
+.btn-secondary-pill {
+  background: transparent;
+  color: #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-secondary-pill:hover {
+  border-color: rgba(255, 255, 255, 0.45);
+  background: rgba(255, 255, 255, 0.05);
 }
 
 /* Cyan & Blue Glows */
@@ -171,5 +217,181 @@ body {
   .marquee-track--left,
   .marquee-track--right {
     animation-duration: 90s !important;
+  }
+}
+
+/* ==========================================================================
+   Dark Glass Gradient Animated Backdrop
+   ========================================================================== */
+
+/* 1. Left Band Sway Animation */
+@keyframes backdropBandLeft {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(-12deg) scale(1);
+  }
+  100% {
+    transform: translate3d(3vw, 2vh, 0) rotate(-9deg) scale(1.06);
+  }
+}
+
+/* 2. Right Band Sway Animation */
+@keyframes backdropBandRight {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(14deg) scale(1);
+  }
+  100% {
+    transform: translate3d(-2.5vw, 1.8vh, 0) rotate(11deg) scale(1.05);
+  }
+}
+
+/* 3. Glossy Sheen Traveling Strip */
+@keyframes backdropSheen {
+  0% {
+    transform: translate3d(0, -60%, 0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.65;
+  }
+  50% {
+    opacity: 0.85;
+  }
+  85% {
+    opacity: 0.65;
+  }
+  100% {
+    transform: translate3d(0, 160%, 0);
+    opacity: 0;
+  }
+}
+
+/* 4. Planetary Arc Floating Animation */
+@keyframes backdropArc {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  100% {
+    transform: translate3d(0, -2.5vh, 0) scale(1.03);
+  }
+}
+
+/* 5. Rim Cross-Fade Alternating */
+@keyframes backdropRimWarm {
+  0%, 100% {
+    opacity: 0.95;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes backdropRimCool {
+  0%, 100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+
+/* 6. Living Film Grain 8-Step Shift */
+@keyframes backdropGrain {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  12.5% {
+    transform: translate3d(-5px, 3px, 0);
+  }
+  25% {
+    transform: translate3d(4px, -2px, 0);
+  }
+  37.5% {
+    transform: translate3d(-3px, -4px, 0);
+  }
+  50% {
+    transform: translate3d(5px, 2px, 0);
+  }
+  62.5% {
+    transform: translate3d(-2px, 5px, 0);
+  }
+  75% {
+    transform: translate3d(3px, -3px, 0);
+  }
+  87.5% {
+    transform: translate3d(-4px, 1px, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Animated Backdrop Static Classes */
+.backdrop-band-left {
+  animation: backdropBandLeft calc(32s / var(--bg-speed, 1)) ease-in-out infinite alternate;
+  animation-play-state: running;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.backdrop-band-right {
+  animation: backdropBandRight calc(38s / var(--bg-speed, 1)) ease-in-out infinite alternate;
+  animation-delay: calc(-12s / var(--bg-speed, 1));
+  animation-play-state: running;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.backdrop-sheen {
+  animation: backdropSheen calc(20s / var(--bg-speed, 1)) linear infinite;
+  animation-play-state: running;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+.backdrop-arc {
+  animation: backdropArc calc(30s / var(--bg-speed, 1)) ease-in-out infinite alternate;
+  animation-play-state: running;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+.backdrop-rim-warm {
+  animation: backdropRimWarm calc(18s / var(--bg-speed, 1)) ease-in-out infinite alternate;
+  animation-play-state: running;
+  will-change: opacity;
+  transform: translateZ(0);
+}
+
+.backdrop-rim-cool {
+  animation: backdropRimCool calc(18s / var(--bg-speed, 1)) ease-in-out infinite alternate;
+  animation-play-state: running;
+  will-change: opacity;
+  transform: translateZ(0);
+}
+
+.backdrop-grain {
+  animation: backdropGrain 1.2s steps(8) infinite;
+  animation-play-state: running;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* Reduced Motion: gracefully slow down 3x rather than stopping */
+@media (prefers-reduced-motion: reduce) {
+  .backdrop-band-left {
+    animation-duration: calc(96s / var(--bg-speed, 1)) !important;
+  }
+  .backdrop-band-right {
+    animation-duration: calc(114s / var(--bg-speed, 1)) !important;
+  }
+  .backdrop-sheen {
+    animation-duration: calc(60s / var(--bg-speed, 1)) !important;
+  }
+  .backdrop-arc {
+    animation-duration: calc(90s / var(--bg-speed, 1)) !important;
+  }
+  .backdrop-rim-warm,
+  .backdrop-rim-cool {
+    animation-duration: calc(54s / var(--bg-speed, 1)) !important;
   }
 }

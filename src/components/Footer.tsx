@@ -66,13 +66,13 @@ export function Footer() {
           </div>
 
           {/* Nagpur Local Time Card */}
-          <div className="p-3.5 rounded-2xl bg-[#050B2E]/60 border border-white/10 flex items-center gap-3">
+          <div className="p-3.5 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center gap-3">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
             <div className="text-xs">
               <span className="block text-zinc-500 font-mono text-[10px] uppercase">
                 Nagpur, India (IST)
               </span>
-              <span className="font-mono text-zinc-200 font-semibold">{time || "Loading..."}</span>
+              <span className="font-mono text-zinc-200 font-medium">{time || "Loading..."}</span>
             </div>
           </div>
 
@@ -83,7 +83,7 @@ export function Footer() {
               href={SOCIALS.instagram.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2.5 rounded-xl bg-[#050B2E]/80 border border-white/10 hover:border-accent hover:text-accent hover:shadow-[0_0_12px_rgba(34,211,238,0.3)] transition-all text-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10 hover:border-accent hover:text-white hover:shadow-[0_0_12px_rgba(34,211,238,0.3)] transition-all text-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               aria-label="Instagram Profile (@editby.dhiru)"
             >
               <InstagramIcon className="w-4 h-4" />
@@ -94,7 +94,7 @@ export function Footer() {
               href={SOCIALS.threads.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2.5 rounded-xl bg-[#050B2E]/80 border border-white/10 hover:border-accent hover:text-accent hover:shadow-[0_0_12px_rgba(34,211,238,0.3)] transition-all text-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10 hover:border-accent hover:text-white hover:shadow-[0_0_12px_rgba(34,211,238,0.3)] transition-all text-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               aria-label="Threads Profile (@editby.dhiru)"
             >
               <ThreadsIcon className="w-4 h-4" />
@@ -105,7 +105,7 @@ export function Footer() {
               href={SOCIALS.x.url}
               target="_blank"
               rel="noopener noreferrer"
-              className="p-2.5 rounded-xl bg-[#050B2E]/80 border border-white/10 hover:border-accent hover:text-accent hover:shadow-[0_0_12px_rgba(34,211,238,0.3)] transition-all text-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10 hover:border-accent hover:text-white hover:shadow-[0_0_12px_rgba(34,211,238,0.3)] transition-all text-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               aria-label="X Profile (@editbydhiru)"
             >
               <XIcon className="w-4 h-4" />
@@ -115,7 +115,7 @@ export function Footer() {
             <button
               type="button"
               onClick={openDiscord}
-              className="p-2.5 rounded-xl bg-[#050B2E]/80 border border-white/10 hover:border-accent hover:text-accent hover:shadow-[0_0_12px_rgba(34,211,238,0.3)] transition-all text-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer"
+              className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10 hover:border-accent hover:text-white hover:shadow-[0_0_12px_rgba(34,211,238,0.3)] transition-all text-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer"
               aria-label="Discord Profile (User ID: 1108795562758770828)"
               title="Open in Discord"
             >

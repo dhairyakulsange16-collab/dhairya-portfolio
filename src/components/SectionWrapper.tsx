@@ -34,18 +34,18 @@ export function SectionWrapper({
           )}
         >
           {badge && (
-            <div className={cn("inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase mb-4 bg-accent/10 border border-accent/25 text-accent", align === "center" && "mx-auto")}>
+            <div className={cn("inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-medium tracking-wider uppercase mb-4 bg-white/[0.04] border border-white/10 text-accent backdrop-blur-md", align === "center" && "mx-auto")}>
               <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
               {badge}
             </div>
           )}
           {title && (
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-light sm:font-normal tracking-[-0.03em] text-white">
               {title}
             </h2>
           )}
           {subtitle && (
-            <p className="mt-4 text-base sm:text-lg text-zinc-400 font-normal leading-relaxed">
+            <p className="mt-4 text-base sm:text-lg text-muted-text font-light sm:font-normal leading-relaxed">
               {subtitle}
             </p>
           )}

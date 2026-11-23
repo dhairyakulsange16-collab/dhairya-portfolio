@@ -90,7 +90,7 @@ export function Contact() {
 
             <div className="space-y-3">
               {/* 1. Email Channel with Direct Mailto + Copy Button */}
-              <div className="p-4 rounded-2xl bg-[#030712] border border-white/10 hover:border-accent hover:shadow-[0_0_22px_rgba(34,211,238,0.25)] transition-all group">
+              <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-accent hover:shadow-[0_0_22px_rgba(34,211,238,0.25)] transition-all group">
                 <div className="flex items-center justify-between gap-3">
                   <a
                     href={SOCIALS.email.mailto}
@@ -116,7 +116,7 @@ export function Contact() {
                       onClick={() => copyToClipboard(SOCIALS.email.address, "Email address", "email")}
                       title="Copy email address"
                       aria-label="Copy email address"
-                      className="p-2 rounded-lg bg-[#050B2E] border border-white/10 hover:border-accent hover:text-accent text-zinc-400 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                      className="p-2 rounded-lg bg-white/[0.04] border border-white/10 hover:border-accent hover:text-accent text-zinc-400 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                     >
                       {copiedType === "email" ? (
                         <Check className="w-4 h-4 text-accent" />
@@ -127,7 +127,7 @@ export function Contact() {
                     <a
                       href={SOCIALS.email.mailto}
                       aria-label="Open email client"
-                      className="p-2 rounded-lg bg-[#050B2E] border border-white/10 hover:border-accent text-zinc-400 hover:text-accent transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                      className="p-2 rounded-lg bg-white/[0.04] border border-white/10 hover:border-accent text-zinc-400 hover:text-accent transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                     >
                       <ArrowUpRight className="w-4 h-4" />
                     </a>
@@ -136,7 +136,7 @@ export function Contact() {
               </div>
 
               {/* 2. Discord Channel with Automatic Open + Fallback + Copy ID Button */}
-              <div className="p-4 rounded-2xl bg-[#030712] border border-white/10 hover:border-accent hover:shadow-[0_0_22px_rgba(34,211,238,0.25)] transition-all group">
+              <div className="p-4 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-accent hover:shadow-[0_0_22px_rgba(34,211,238,0.25)] transition-all group">
                 <div className="flex items-center justify-between gap-3">
                   <button
                     type="button"
@@ -168,7 +168,7 @@ export function Contact() {
                       onClick={() => copyToClipboard(SOCIALS.discord.userId, "Discord User ID", "discord")}
                       title="Copy Discord User ID"
                       aria-label="Copy Discord User ID"
-                      className="p-2 rounded-lg bg-[#050B2E] border border-white/10 hover:border-accent hover:text-accent text-zinc-400 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                      className="p-2 rounded-lg bg-white/[0.04] border border-white/10 hover:border-accent hover:text-accent text-zinc-400 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                     >
                       {copiedType === "discord" ? (
                         <Check className="w-4 h-4 text-accent" />
@@ -181,7 +181,7 @@ export function Contact() {
                       onClick={openDiscord}
                       title="Launch Discord"
                       aria-label="Launch Discord"
-                      className="p-2 rounded-lg bg-[#050B2E] border border-white/10 hover:border-accent text-zinc-400 hover:text-accent transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                      className="p-2 rounded-lg bg-white/[0.04] border border-white/10 hover:border-accent text-zinc-400 hover:text-accent transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                     >
                       <ArrowUpRight className="w-4 h-4" />
                     </button>
@@ -195,7 +195,7 @@ export function Contact() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`Instagram Profile (${SOCIALS.instagram.handle})`}
-                className="flex items-center justify-between p-4 rounded-2xl bg-[#030712] border border-white/10 hover:border-accent hover:shadow-[0_0_22px_rgba(34,211,238,0.25)] transition-all group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                className="flex items-center justify-between p-4 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-accent hover:shadow-[0_0_22px_rgba(34,211,238,0.25)] transition-all group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
                 <div className="flex items-center gap-3.5">
                   <div className="w-10 h-10 rounded-xl bg-primary/10 border border-accent/20 flex items-center justify-center text-accent group-hover:scale-105 transition-transform">
@@ -219,7 +219,7 @@ export function Contact() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`Threads Profile (${SOCIALS.threads.handle})`}
-                className="flex items-center justify-between p-4 rounded-2xl bg-[#030712] border border-white/10 hover:border-accent hover:shadow-[0_0_22px_rgba(34,211,238,0.25)] transition-all group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                className="flex items-center justify-between p-4 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-accent hover:shadow-[0_0_22px_rgba(34,211,238,0.25)] transition-all group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
                 <div className="flex items-center gap-3.5">
                   <div className="w-10 h-10 rounded-xl bg-primary/10 border border-accent/20 flex items-center justify-center text-accent group-hover:scale-105 transition-transform">
@@ -243,7 +243,7 @@ export function Contact() {
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label={`X Profile (${SOCIALS.x.handle})`}
-                className="flex items-center justify-between p-4 rounded-2xl bg-[#030712] border border-white/10 hover:border-accent hover:shadow-[0_0_22px_rgba(34,211,238,0.25)] transition-all group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                className="flex items-center justify-between p-4 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-accent hover:shadow-[0_0_22px_rgba(34,211,238,0.25)] transition-all group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
                 <div className="flex items-center gap-3.5">
                   <div className="w-10 h-10 rounded-xl bg-primary/10 border border-accent/20 flex items-center justify-center text-accent group-hover:scale-105 transition-transform">
@@ -262,8 +262,8 @@ export function Contact() {
               </a>
 
               {/* Location Badge */}
-              <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-[#030712] border border-white/5">
-                <div className="w-10 h-10 rounded-xl bg-zinc-900 border border-white/10 flex items-center justify-center text-zinc-400">
+              <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-white/[0.03] border border-white/10">
+                <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-zinc-400">
                   <MapPin className="w-5 h-5 text-accent" />
                 </div>
                 <div>
@@ -318,7 +318,7 @@ export function Contact() {
                       placeholder="e.g. Rahul Sharma"
                       value={formData.name}
                       onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-[#030712] border border-white/10 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-accent transition-colors focus-visible:ring-2 focus-visible:ring-accent"
+                      className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-accent transition-colors focus-visible:ring-2 focus-visible:ring-accent"
                     />
                   </div>
 
@@ -332,7 +332,7 @@ export function Contact() {
                       placeholder="e.g. rahul@brand.com"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-[#030712] border border-white/10 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-accent transition-colors focus-visible:ring-2 focus-visible:ring-accent"
+                      className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-accent transition-colors focus-visible:ring-2 focus-visible:ring-accent"
                     />
                   </div>
                 </div>
@@ -345,13 +345,13 @@ export function Contact() {
                     <select
                       value={formData.projectType}
                       onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-[#030712] border border-white/10 text-sm text-white focus:outline-none focus:border-accent transition-colors focus-visible:ring-2 focus-visible:ring-accent"
+                      className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-sm text-white focus:outline-none focus:border-accent transition-colors focus-visible:ring-2 focus-visible:ring-accent"
                     >
-                      <option value="reels">Short-Form & Reels Editing</option>
-                      <option value="production">End-to-End Production & Cameraman</option>
-                      <option value="commercial">Commercial / Brand Film</option>
-                      <option value="longform">Long-Form Commercial & Narrative</option>
-                      <option value="retainer">Monthly Video Retainer</option>
+                      <option value="reels" className="bg-[#020308]">Short-Form & Reels Editing</option>
+                      <option value="production" className="bg-[#020308]">End-to-End Production & Cameraman</option>
+                      <option value="commercial" className="bg-[#020308]">Commercial / Brand Film</option>
+                      <option value="longform" className="bg-[#020308]">Long-Form Commercial & Narrative</option>
+                      <option value="retainer" className="bg-[#020308]">Monthly Video Retainer</option>
                     </select>
                   </div>
 
@@ -362,13 +362,13 @@ export function Contact() {
                     <select
                       value={formData.budget}
                       onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-[#030712] border border-white/10 text-sm text-white focus:outline-none focus:border-accent transition-colors focus-visible:ring-2 focus-visible:ring-accent"
+                      className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-sm text-white focus:outline-none focus:border-accent transition-colors focus-visible:ring-2 focus-visible:ring-accent"
                     >
-                      <option value="flexible">Flexible / Exploring</option>
-                      <option value="starter">₹15,000 – ₹35,000</option>
-                      <option value="growth">₹35,000 – ₹75,000</option>
-                      <option value="commercial">₹75,000+</option>
-                      <option value="international">$500 – $2,500+ (USD)</option>
+                      <option value="flexible" className="bg-[#020308]">Flexible / Exploring</option>
+                      <option value="starter" className="bg-[#020308]">₹15,000 – ₹35,000</option>
+                      <option value="growth" className="bg-[#020308]">₹35,000 – ₹75,000</option>
+                      <option value="commercial" className="bg-[#020308]">₹75,000+</option>
+                      <option value="international" className="bg-[#020308]">$500 – $2,500+ (USD)</option>
                     </select>
                   </div>
                 </div>
@@ -383,16 +383,16 @@ export function Contact() {
                     placeholder="Tell me about your video vision, target audience, reference links, and timeline..."
                     value={formData.message}
                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl bg-[#030712] border border-white/10 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-accent transition-colors resize-none focus-visible:ring-2 focus-visible:ring-accent"
+                    className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-accent transition-colors resize-none focus-visible:ring-2 focus-visible:ring-accent"
                   />
                 </div>
 
                 <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
                   <button
                     type="submit"
-                    className="w-full sm:w-auto px-8 py-3.5 rounded-full bg-gradient-to-r from-primary to-primary-hover text-white font-bold text-xs uppercase tracking-wider hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 flex items-center justify-center gap-2 hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                    className="btn-primary-pill w-full sm:w-auto px-8 py-3.5 rounded-full font-medium text-xs uppercase tracking-wider shadow-sm flex items-center justify-center gap-2 hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                   >
-                    <Send className="w-4 h-4 text-accent" />
+                    <Send className="w-4 h-4 text-[#020308]" />
                     <span>Send Project Inquiry</span>
                   </button>
 

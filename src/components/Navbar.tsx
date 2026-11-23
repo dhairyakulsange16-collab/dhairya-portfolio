@@ -60,40 +60,40 @@ export function Navbar() {
       <header
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
           isScrolled
-            ? "bg-[#030712]/85 backdrop-blur-xl border-b border-accent/15 py-3 shadow-2xl shadow-primary/10"
-            : "bg-transparent py-5"
+            ? "bg-[#020308]/70 backdrop-blur-md border-b border-white/10 py-3.5 shadow-2xl shadow-black/40"
+            : "bg-transparent py-5 border-b border-white/[0.04]"
         }`}
       >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
           {/* Brand Logo with Avatar Anchor */}
           <Link
             href="#"
-            className="group flex items-center gap-2.5 text-xl font-bold tracking-tighter text-white"
+            className="group flex items-center gap-2.5 tracking-tight text-white"
           >
-            <div className="w-8 h-8 rounded-full overflow-hidden border border-accent/60 p-0.5 bg-black/40 group-hover:border-accent group-hover:shadow-[0_0_12px_rgba(34,211,238,0.5)] transition-all">
+            <div className="w-8 h-8 rounded-full overflow-hidden border border-white/20 p-0.5 bg-black/40 group-hover:border-accent group-hover:shadow-[0_0_12px_rgba(34,211,238,0.5)] transition-all">
               <img
                 src="/assets/brand/avatar-static.png"
                 alt="Dhairya"
                 className="w-full h-full object-cover rounded-full"
               />
             </div>
-            <span className="tracking-widest uppercase text-sm font-extrabold text-white">
+            <span className="tracking-widest uppercase text-sm font-medium text-white">
               DHAIRYA<span className="text-accent animate-pulse">.</span>
             </span>
           </Link>
 
-          {/* Desktop Navigation Links with Active Indicator */}
-          <nav className="hidden md:flex items-center gap-1 rounded-full px-4 py-1.5 bg-[#050B2E]/60 border border-accent/20 backdrop-blur-md">
+          {/* Desktop Navigation Links (Centered, refined glass pill) */}
+          <nav className="hidden md:flex items-center gap-1 rounded-full px-4 py-1.5 bg-white/[0.04] border border-white/10 backdrop-blur-md">
             {navLinks.map((link) => {
               const isActive = activeSection === link.id;
               return (
                 <Link
                   key={link.name}
                   href={link.href}
-                  className={`text-xs font-medium px-4 py-1.5 rounded-full transition-all duration-200 ${
+                  className={`text-xs px-4 py-1.5 rounded-full transition-all duration-200 ${
                     isActive
-                      ? "bg-accent/20 text-accent-bright border border-accent/40 shadow-[0_0_10px_rgba(34,211,238,0.25)] font-semibold"
-                      : "text-muted-text hover:text-white hover:bg-white/[0.04]"
+                      ? "bg-white/[0.12] text-white border border-white/20 shadow-sm font-medium"
+                      : "text-muted-text hover:text-white hover:bg-white/[0.05] font-normal"
                   }`}
                 >
                   {link.name}
@@ -104,7 +104,7 @@ export function Navbar() {
 
           {/* Right Status Badge & Primary CTA */}
           <div className="hidden md:flex items-center gap-3.5">
-            <div className="hidden lg:flex items-center gap-2 text-[11px] text-muted-text font-medium px-3 py-1 rounded-full bg-surface border border-surface-border">
+            <div className="hidden lg:flex items-center gap-2 text-[11px] text-muted-text font-normal px-3 py-1 rounded-full bg-white/[0.03] border border-white/10">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
               <span>Available for Work</span>
             </div>
@@ -112,10 +112,10 @@ export function Navbar() {
             <Link
               href="#contact"
               aria-label="Hire Me - Jump to Contact section"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-semibold bg-gradient-to-r from-primary to-accent text-white hover:opacity-95 transition-all duration-200 shadow-lg shadow-primary/25 hover:scale-[1.02] active:scale-[0.98] border border-accent/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              className="btn-primary-pill inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-medium shadow-sm hover:scale-[1.02] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
               <span>Hire Me</span>
-              <ArrowUpRight className="w-3.5 h-3.5" />
+              <ArrowUpRight className="w-3.5 h-3.5 text-[#020308]" />
             </Link>
           </div>
 

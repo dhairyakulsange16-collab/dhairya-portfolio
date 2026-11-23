@@ -90,17 +90,17 @@ export function WorkSections({ projects, onSelectProject }: WorkSectionsProps) {
       : CATEGORY_CONFIGS.filter((c) => c.key === filterCategory);
 
   return (
-    <div id="work" className="relative py-16 space-y-24 bg-background">
+    <div id="work" className="relative py-16 space-y-24 bg-transparent">
       {/* Work Section Anchor Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase mb-4 bg-surface border border-surface-border text-accent backdrop-blur-md glow-cyan">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wider uppercase mb-4 bg-white/[0.04] border border-white/10 text-accent backdrop-blur-md">
           <Film className="w-3.5 h-3.5 text-accent" />
           <span>Complete Video Portfolio</span>
         </div>
-        <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-white uppercase">
+        <h2 className="text-3xl sm:text-5xl lg:text-6xl font-light sm:font-normal tracking-[-0.03em] text-white uppercase">
           Real Projects • Authentic Footage
         </h2>
-        <p className="mt-4 text-sm sm:text-base text-muted-text max-w-2xl mx-auto font-normal">
+        <p className="mt-4 text-sm sm:text-base text-muted-text max-w-2xl mx-auto font-light sm:font-normal">
           Every video, reel, and frame below is sourced directly from client production archives across Nagpur, India, and global brands.
         </p>
 
@@ -119,14 +119,14 @@ export function WorkSections({ projects, onSelectProject }: WorkSectionsProps) {
                 onClick={() => setFilterCategory(cat)}
                 className={`flex items-center gap-2 px-4 py-2 rounded-full text-xs font-medium tracking-wide transition-all duration-200 ${
                   isActive
-                    ? "bg-accent text-black font-bold shadow-lg shadow-accent/25"
-                    : "bg-surface hover:bg-surface-elevated text-zinc-400 hover:text-white border border-surface-border"
+                    ? "bg-white text-[#020308] font-medium shadow-sm"
+                    : "bg-white/[0.03] hover:bg-white/[0.07] text-zinc-400 hover:text-white border border-white/10"
                 }`}
               >
                 <span>{cat}</span>
                 <span
                   className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono ${
-                    isActive ? "bg-black/20 text-black font-bold" : "bg-white/10 text-zinc-400"
+                    isActive ? "bg-black/15 text-[#020308] font-medium" : "bg-white/10 text-zinc-400"
                   }`}
                 >
                   {count}

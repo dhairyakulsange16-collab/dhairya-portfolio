@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { SOCIALS } from "@/data/socials";
+import { GlassBackdrop } from "@/components/GlassBackdrop";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -105,14 +106,15 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className={`dark ${inter.variable}`}>
+    <html lang="en" className={`dark bg-[#020308] ${inter.variable}`}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-screen bg-background text-zinc-100 antialiased selection:bg-accent selection:text-black">
+      <body className="min-h-screen bg-transparent text-zinc-100 antialiased selection:bg-accent selection:text-black relative">
+        <GlassBackdrop />
         {children}
       </body>
     </html>

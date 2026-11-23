@@ -38,22 +38,19 @@ export function BrandStrip() {
           "--marquee-duration-reverse": "45s",
         } as React.CSSProperties
       }
-      className="py-16 sm:py-20 border-y border-white/[0.06] bg-[#02040A] relative overflow-x-hidden"
+      className="py-16 sm:py-20 border-y border-white/[0.06] bg-transparent relative overflow-x-hidden"
       aria-label="Client Roster & Trusted Brands"
     >
-      {/* Ambient center blur */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[120px] bg-primary/10 blur-[90px] pointer-events-none rounded-full" />
-
       {/* Section Header */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10 text-center relative z-10">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase mb-3 bg-surface border border-surface-border text-accent backdrop-blur-md glow-cyan">
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wider uppercase mb-3 bg-white/[0.04] border border-white/10 text-accent backdrop-blur-md">
           <Sparkles className="w-3.5 h-3.5 text-accent" />
           <span>Client Roster</span>
         </div>
-        <h2 className="text-2xl sm:text-3xl md:text-4xl font-black text-white uppercase tracking-tight">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-light sm:font-normal text-white uppercase tracking-[-0.02em]">
           Trusted by 40+ Brands, SaaS Platforms & Commercial Creators
         </h2>
-        <p className="text-xs sm:text-sm text-muted-text mt-2 max-w-2xl mx-auto">
+        <p className="text-xs sm:text-sm text-muted-text mt-2 max-w-2xl mx-auto font-light sm:font-normal">
           Delivering high-retention video production across tech, luxury retail, automotive, and digital education.
         </p>
       </div>
@@ -73,8 +70,8 @@ export function BrandStrip() {
                   className="shrink-0 pr-6 sm:pr-8 whitespace-nowrap"
                   role="listitem"
                 >
-                  <div className="h-[74px] sm:h-[80px] px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl bg-[#050B2E]/60 border border-white/[0.08] hover:border-accent hover:shadow-[0_0_24px_rgba(34,211,238,0.35)] hover:bg-[#050B2E]/90 transition-all duration-300 backdrop-blur-md flex flex-col items-center justify-center text-center cursor-default select-none group">
-                    <span className="text-sm sm:text-base font-bold text-zinc-200 group-hover:text-accent transition-colors tracking-tight whitespace-nowrap">
+                  <div className="h-[74px] sm:h-[80px] px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08)] hover:border-accent hover:shadow-[0_0_20px_rgba(34,211,238,0.25)] hover:bg-white/[0.06] transition-all duration-300 backdrop-blur-md flex flex-col items-center justify-center text-center cursor-default select-none group">
+                    <span className="text-sm sm:text-base font-medium text-zinc-200 group-hover:text-accent transition-colors tracking-tight whitespace-nowrap">
                       {brand.name}
                     </span>
                     <span className="text-[10px] sm:text-[11px] font-mono text-zinc-500 group-hover:text-zinc-400 tracking-tight mt-0.5 whitespace-nowrap">
@@ -93,8 +90,8 @@ export function BrandStrip() {
                   className="shrink-0 pr-6 sm:pr-8 whitespace-nowrap"
                   tabIndex={-1}
                 >
-                  <div className="h-[74px] sm:h-[80px] px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl bg-[#050B2E]/60 border border-white/[0.08] hover:border-accent hover:shadow-[0_0_24px_rgba(34,211,238,0.35)] hover:bg-[#050B2E]/90 transition-all duration-300 backdrop-blur-md flex flex-col items-center justify-center text-center cursor-default select-none group">
-                    <span className="text-sm sm:text-base font-bold text-zinc-200 group-hover:text-accent transition-colors tracking-tight whitespace-nowrap">
+                  <div className="h-[74px] sm:h-[80px] px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08)] hover:border-accent hover:shadow-[0_0_20px_rgba(34,211,238,0.25)] hover:bg-white/[0.06] transition-all duration-300 backdrop-blur-md flex flex-col items-center justify-center text-center cursor-default select-none group">
+                    <span className="text-sm sm:text-base font-medium text-zinc-200 group-hover:text-accent transition-colors tracking-tight whitespace-nowrap">
                       {brand.name}
                     </span>
                     <span className="text-[10px] sm:text-[11px] font-mono text-zinc-500 group-hover:text-zinc-400 tracking-tight mt-0.5 whitespace-nowrap">
@@ -118,8 +115,8 @@ export function BrandStrip() {
                   className="shrink-0 pr-6 sm:pr-8 whitespace-nowrap"
                   role="listitem"
                 >
-                  <div className="h-[74px] sm:h-[80px] px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl bg-[#050B2E]/60 border border-white/[0.08] hover:border-accent hover:shadow-[0_0_24px_rgba(34,211,238,0.35)] hover:bg-[#050B2E]/90 transition-all duration-300 backdrop-blur-md flex flex-col items-center justify-center text-center cursor-default select-none group">
-                    <span className="text-sm sm:text-base font-bold text-zinc-200 group-hover:text-accent transition-colors tracking-tight whitespace-nowrap">
+                  <div className="h-[74px] sm:h-[80px] px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08)] hover:border-accent hover:shadow-[0_0_20px_rgba(34,211,238,0.25)] hover:bg-white/[0.06] transition-all duration-300 backdrop-blur-md flex flex-col items-center justify-center text-center cursor-default select-none group">
+                    <span className="text-sm sm:text-base font-medium text-zinc-200 group-hover:text-accent transition-colors tracking-tight whitespace-nowrap">
                       {brand.name}
                     </span>
                     <span className="text-[10px] sm:text-[11px] font-mono text-zinc-500 group-hover:text-zinc-400 tracking-tight mt-0.5 whitespace-nowrap">
@@ -138,8 +135,8 @@ export function BrandStrip() {
                   className="shrink-0 pr-6 sm:pr-8 whitespace-nowrap"
                   tabIndex={-1}
                 >
-                  <div className="h-[74px] sm:h-[80px] px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl bg-[#050B2E]/60 border border-white/[0.08] hover:border-accent hover:shadow-[0_0_24px_rgba(34,211,238,0.35)] hover:bg-[#050B2E]/90 transition-all duration-300 backdrop-blur-md flex flex-col items-center justify-center text-center cursor-default select-none group">
-                    <span className="text-sm sm:text-base font-bold text-zinc-200 group-hover:text-accent transition-colors tracking-tight whitespace-nowrap">
+                  <div className="h-[74px] sm:h-[80px] px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08)] hover:border-accent hover:shadow-[0_0_20px_rgba(34,211,238,0.25)] hover:bg-white/[0.06] transition-all duration-300 backdrop-blur-md flex flex-col items-center justify-center text-center cursor-default select-none group">
+                    <span className="text-sm sm:text-base font-medium text-zinc-200 group-hover:text-accent transition-colors tracking-tight whitespace-nowrap">
                       {brand.name}
                     </span>
                     <span className="text-[10px] sm:text-[11px] font-mono text-zinc-500 group-hover:text-zinc-400 tracking-tight mt-0.5 whitespace-nowrap">

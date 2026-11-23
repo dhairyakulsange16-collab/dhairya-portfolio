@@ -14,22 +14,18 @@ export function Showreel({ project, onOpenLightbox }: ShowreelProps) {
   const [isPlaying, setIsPlaying] = useState(true);
 
   return (
-    <section id="showreel" className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-background">
-      {/* Background radial ambient lights */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[450px] bg-primary/20 blur-[160px] pointer-events-none rounded-full" />
-      <div className="absolute top-1/3 right-1/4 w-[400px] h-[300px] bg-accent/15 blur-[130px] pointer-events-none rounded-full" />
-
+    <section id="showreel" className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden bg-transparent">
       <div className="max-w-6xl mx-auto relative z-10">
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-10 sm:mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase mb-4 bg-surface border border-surface-border text-accent backdrop-blur-md glow-cyan">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-medium tracking-wider uppercase mb-4 bg-white/[0.04] border border-white/10 text-accent backdrop-blur-md">
             <Film className="w-3.5 h-3.5 text-accent" />
             <span>Featured Commercial Showreel</span>
           </div>
-          <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white uppercase">
+          <h2 className="text-3xl sm:text-5xl font-light sm:font-normal tracking-[-0.03em] text-white uppercase">
             Cinematic Vision in Motion
           </h2>
-          <p className="mt-3 text-sm sm:text-base text-muted-text font-normal">
+          <p className="mt-3 text-sm sm:text-base text-muted-text font-light sm:font-normal">
             A spotlight on commercial production, dynamic camera framing, and rhythmic narrative pacing.
           </p>
         </div>

@@ -55,7 +55,7 @@ export function About() {
                 <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-accent via-primary to-accent-bright opacity-80 blur-md group-hover:opacity-100 transition duration-700 animate-pulse-glow" />
                 
                 {/* Avatar Frame */}
-                <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-accent/80 p-0.5 bg-[#030712] shadow-xl shadow-accent/20">
+                <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-accent/80 p-0.5 bg-[#020308] shadow-xl shadow-accent/20">
                   <picture>
                     <source
                       media="(prefers-reduced-motion: reduce)"

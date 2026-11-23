@@ -85,7 +85,7 @@ export function StatsStrip() {
   ];
 
   return (
-    <section className="py-16 border-y border-accent/15 bg-gradient-to-b from-[#050B2E]/50 via-[#030712] to-[#050B2E]/50 relative overflow-hidden">
+    <section className="py-16 border-y border-white/[0.06] bg-transparent relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {stats.map((stat) => {
@@ -93,18 +93,18 @@ export function StatsStrip() {
             return (
               <div
                 key={stat.label}
-                className="p-6 rounded-2xl bg-surface border border-surface-border hover:border-accent/30 transition-all flex flex-col items-center text-center group"
+                className="glass-card p-6 rounded-2xl flex flex-col items-center text-center group"
               >
-                <div className="w-10 h-10 rounded-xl bg-primary/10 border border-accent/20 flex items-center justify-center text-accent mb-3 group-hover:scale-110 transition-transform">
+                <div className="w-10 h-10 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-accent mb-3 group-hover:scale-105 transition-transform">
                   <IconComponent className="w-5 h-5" />
                 </div>
-                <div className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight text-gradient-cyan">
+                <div className="text-3xl sm:text-4xl md:text-5xl font-light sm:font-normal text-white tracking-[-0.02em] text-gradient-cyan">
                   <Counter end={stat.value} suffix={stat.suffix} />
                 </div>
-                <span className="text-xs sm:text-sm font-semibold text-zinc-200 mt-2">
+                <span className="text-xs sm:text-sm font-medium text-zinc-200 mt-2">
                   {stat.label}
                 </span>
-                <span className="text-[11px] text-muted-text mt-0.5">
+                <span className="text-[11px] text-muted-text mt-0.5 font-light">
                   {stat.sublabel}
                 </span>
               </div>

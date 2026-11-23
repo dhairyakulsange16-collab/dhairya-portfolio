@@ -25,7 +25,7 @@ export default function Home() {
     PROJECTS[0];
 
   return (
-    <main className="relative min-h-screen bg-background text-zinc-100 flex flex-col selection:bg-accent selection:text-black">
+    <main className="relative z-10 min-h-screen bg-transparent text-zinc-100 flex flex-col selection:bg-accent selection:text-black">
       {/* 0. Sticky Global Navbar with Scroll Progress Bar & Section Tracker */}
       <Navbar />
 
