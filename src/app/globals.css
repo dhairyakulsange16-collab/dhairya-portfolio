@@ -10,6 +10,10 @@
   --accent: #22D3EE;
   --accent-bright: #5CF0FF;
   --muted-text: #9AA8C7;
+
+  /* Marquee Train Animation Duration (Edit speed here: higher = slower) */
+  --marquee-duration: 35s;
+  --marquee-duration-reverse: 42s;
 }
 
 html {
@@ -96,4 +100,58 @@ body {
     linear-gradient(225deg, rgba(34, 211, 238, 0.04) 25%, transparent 25%),
     linear-gradient(45deg, rgba(34, 211, 238, 0.03) 25%, transparent 25%);
   background-size: 60px 60px;
+}
+
+/* ==========================================================================
+   Continuous Train-Style Marquee
+   ========================================================================== */
+
+/* Hardware accelerated marquee track */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.animate-train-left {
+  animation: marqueeTrain var(--marquee-duration, 35s) linear infinite;
+}
+
+.animate-train-right {
+  animation: marqueeTrainReverse var(--marquee-duration-reverse, 42s) linear infinite;
+}
+
+/* Hover-pause support for desktop interaction */
+.marquee-container:hover .animate-train-left,
+.marquee-container:hover .animate-train-right,
+.animate-train-left:hover,
+.animate-train-right:hover {
+  animation-play-state: paused;
+}
+
+/* Fade masks on edges for passing-through train aesthetic */
+.marquee-fade-mask {
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 6%,
+    black 94%,
+    transparent 100%
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    black 6%,
+    black 94%,
+    transparent 100%
+  );
+}
+
+/* Respect accessibility prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .animate-train-left,
+  .animate-train-right {
+    animation: none !important;
+    transform: none !important;
+  }
 }
