@@ -25,7 +25,7 @@ export function Services() {
       title: "Reels & Short-Form Editing",
       tagline: "Retention-Engineered Hooks",
       description:
-        "High-velocity editing engineered for Instagram Reels, YouTube Shorts, and TikTok. Built around dopamine-triggering sound effects, kinetic captions, and micro-cuts.",
+        "High-velocity editing engineered for Instagram Reels, TikTok, and viral social clips. Built around dopamine-triggering sound effects, kinetic captions, and micro-cuts.",
       deliverables: [
         "First 3-second visual hook design",
         "Kinetic subtitles & animated icons",
@@ -53,7 +53,7 @@ export function Services() {
       title: "Social Media Posting",
       tagline: "Consistent Algorithmic Cadence",
       description:
-        "End-to-end scheduling and posting management across Instagram, YouTube, and LinkedIn. Ensuring your content calendar stays active without lifting a finger.",
+        "End-to-end scheduling and posting management across Instagram, LinkedIn, and brand networks. Ensuring your content calendar stays active without lifting a finger.",
       deliverables: [
         "Strategic posting calendar scheduling",
         "Caption copywriting & hashtag trees",
@@ -71,7 +71,7 @@ export function Services() {
       deliverables: [
         "Custom high-CTR Photoshop thumbnails",
         "Search-optimized video titles & tags",
-        "YouTube chapter markers & cards",
+        "Video chapter markers & custom end screens",
         "Audience keyword search analysis",
       ],
       // TODO: Dhairya to specify thumbnail CTR averages or case studies

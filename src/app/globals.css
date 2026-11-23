@@ -13,7 +13,7 @@
 
   /* Marquee Train Animation Duration (Edit speed here: higher = slower) */
   --marquee-duration: 35s;
-  --marquee-duration-reverse: 42s;
+  --marquee-duration-reverse: 45s;
 }
 
 html {
@@ -103,55 +103,73 @@ body {
 }
 
 /* ==========================================================================
-   Continuous Train-Style Marquee
+   Continuous Train-Style Marquee (Pure CSS Keyframes)
    ========================================================================== */
 
-/* Hardware accelerated marquee track */
-.marquee-track {
-  display: flex;
-  width: max-content;
-  will-change: transform;
+@keyframes marquee-left {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
 }
 
-.animate-train-left {
-  animation: marqueeTrain var(--marquee-duration, 35s) linear infinite;
+@keyframes marquee-right {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
 }
 
-.animate-train-right {
-  animation: marqueeTrainReverse var(--marquee-duration-reverse, 42s) linear infinite;
-}
-
-/* Hover-pause support for desktop interaction */
-.marquee-container:hover .animate-train-left,
-.marquee-container:hover .animate-train-right,
-.animate-train-left:hover,
-.animate-train-right:hover {
-  animation-play-state: paused;
-}
-
-/* Fade masks on edges for passing-through train aesthetic */
-.marquee-fade-mask {
+.marquee {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
   mask-image: linear-gradient(
     to right,
     transparent 0%,
-    black 6%,
-    black 94%,
+    #000 10%,
+    #000 90%,
     transparent 100%
   );
   -webkit-mask-image: linear-gradient(
     to right,
     transparent 0%,
-    black 6%,
-    black 94%,
+    #000 10%,
+    #000 90%,
     transparent 100%
   );
 }
 
-/* Respect accessibility prefers-reduced-motion */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  flex-wrap: nowrap;
+  will-change: transform;
+}
+
+.marquee-track--left {
+  animation: marquee-left var(--marquee-duration, 35s) linear infinite;
+  animation-play-state: running;
+}
+
+.marquee-track--right {
+  animation: marquee-right var(--marquee-duration-reverse, 45s) linear infinite;
+  animation-play-state: running;
+}
+
+/* Pause on hover for desktop */
+.marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* Reduced motion handling: slow down to 90s instead of freezing */
 @media (prefers-reduced-motion: reduce) {
-  .animate-train-left,
-  .animate-train-right {
-    animation: none !important;
-    transform: none !important;
+  .marquee-track--left,
+  .marquee-track--right {
+    animation-duration: 90s !important;
   }
 }

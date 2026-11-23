@@ -58,7 +58,7 @@ export default function Home() {
       {/* 7. About: PFP avatar, short bio, tools, Let's work together CTA */}
       <About />
 
-      {/* 8. Contact: WhatsApp, Email, Instagram, YouTube, and Brief form */}
+      {/* 8. Contact: Email, Discord, Instagram, Threads, X, and Brief form */}
       <Contact />
 
       {/* 9. Minimal Footer with back-to-top */}

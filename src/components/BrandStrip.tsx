@@ -4,7 +4,6 @@ import React from "react";
 import { Sparkles } from "lucide-react";
 
 export function BrandStrip() {
-  // TODO: Dhairya to attach vector/PNG brand logos to replace text placeholders
   const brands = [
     { name: "SwarnApp", category: "Jewellery ERP Tech" },
     { name: "JewelSteps", category: "Retail SaaS" },
@@ -22,18 +21,24 @@ export function BrandStrip() {
     { name: "Sai Madhav", category: "Commercial Retail" },
   ];
 
-  // Split into two distinct rows for a layered two-track train effect (since > 12 brands)
+  // Since > 12 clients, split into two layered tracks moving in opposite directions
   const row1Base = brands.slice(0, 7);
   const row2Base = brands.slice(7);
 
-  // Repeat each row twice in each half to ensure it exceeds the widest viewport (> 3000px)
-  const row1Half = [...row1Base, ...row1Base];
-  const row2Half = [...row2Base, ...row2Base];
+  // Repeat items 3 times inside each copy so one copy spans > 4500px (exceeding > 3x any viewport)
+  const row1Copy = [...row1Base, ...row1Base, ...row1Base];
+  const row2Copy = [...row2Base, ...row2Base, ...row2Base];
 
   return (
     <section
       id="clients"
-      className="py-16 sm:py-20 border-y border-white/[0.06] bg-[#02040A] relative overflow-hidden"
+      style={
+        {
+          "--marquee-duration": "35s",
+          "--marquee-duration-reverse": "45s",
+        } as React.CSSProperties
+      }
+      className="py-16 sm:py-20 border-y border-white/[0.06] bg-[#02040A] relative overflow-x-hidden"
       aria-label="Client Roster & Trusted Brands"
     >
       {/* Ambient center blur */}
@@ -54,121 +59,98 @@ export function BrandStrip() {
       </div>
 
       {/* =========================================================================
-          1. Continuous Train-Style Marquee (Visible by default, hidden if reduced motion)
+          Continuous Train-Style Marquee Tracks
           ========================================================================= */}
-      <div className="relative w-full space-y-5 sm:space-y-6 motion-reduce:hidden">
-        {/* Left & Right Edge Fade Overlays for Train Passing Illusion */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 sm:w-40 md:w-56 bg-gradient-to-r from-[#02040A] via-[#02040A]/85 to-transparent z-20" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 sm:w-40 md:w-56 bg-gradient-to-l from-[#02040A] via-[#02040A]/85 to-transparent z-20" />
-
-        {/* --- Track 1: Moving Right-to-Left (Eastbound Train) --- */}
-        <div className="marquee-container relative w-full overflow-hidden marquee-fade-mask">
-          <div className="marquee-track animate-train-left">
-            {/* Primary Track Set */}
-            <div className="flex shrink-0 items-center gap-6 sm:gap-7 pr-6 sm:pr-7" role="list">
-              {row1Half.map((brand, idx) => (
-                <div
-                  key={`r1-a-${brand.name}-${idx}`}
+      <div className="relative w-full">
+        {/* Track 1: Moving Right-to-Left (marquee-left, 35s) */}
+        <div className="marquee">
+          <div className="marquee-track marquee-track--left">
+            {/* Original List */}
+            <ul className="flex items-center shrink-0 list-none m-0 p-0" role="list">
+              {row1Copy.map((brand, idx) => (
+                <li
+                  key={`r1-orig-${brand.name}-${idx}`}
+                  className="shrink-0 pr-6 sm:pr-8 whitespace-nowrap"
                   role="listitem"
-                  className="px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl bg-[#050B2E]/60 border border-white/[0.08] hover:border-accent hover:shadow-[0_0_24px_rgba(34,211,238,0.35)] hover:bg-[#050B2E]/90 transition-all duration-300 backdrop-blur-md flex flex-col items-center justify-center text-center shrink-0 cursor-default select-none group"
                 >
-                  <span className="text-sm sm:text-base font-bold text-zinc-200 group-hover:text-accent transition-colors tracking-tight whitespace-nowrap">
-                    {brand.name}
-                  </span>
-                  <span className="text-[10px] sm:text-[11px] font-mono text-zinc-500 group-hover:text-zinc-400 tracking-tight mt-0.5 whitespace-nowrap">
-                    {brand.category}
-                  </span>
-                </div>
+                  <div className="h-[74px] sm:h-[80px] px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl bg-[#050B2E]/60 border border-white/[0.08] hover:border-accent hover:shadow-[0_0_24px_rgba(34,211,238,0.35)] hover:bg-[#050B2E]/90 transition-all duration-300 backdrop-blur-md flex flex-col items-center justify-center text-center cursor-default select-none group">
+                    <span className="text-sm sm:text-base font-bold text-zinc-200 group-hover:text-accent transition-colors tracking-tight whitespace-nowrap">
+                      {brand.name}
+                    </span>
+                    <span className="text-[10px] sm:text-[11px] font-mono text-zinc-500 group-hover:text-zinc-400 tracking-tight mt-0.5 whitespace-nowrap">
+                      {brand.category}
+                    </span>
+                  </div>
+                </li>
               ))}
-            </div>
+            </ul>
 
-            {/* Duplicate Track Set for 100% Seamless Looping */}
-            <div
-              className="flex shrink-0 items-center gap-6 sm:gap-7 pr-6 sm:pr-7"
-              aria-hidden="true"
-            >
-              {row1Half.map((brand, idx) => (
-                <div
-                  key={`r1-b-${brand.name}-${idx}`}
-                  className="px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl bg-[#050B2E]/60 border border-white/[0.08] hover:border-accent hover:shadow-[0_0_24px_rgba(34,211,238,0.35)] hover:bg-[#050B2E]/90 transition-all duration-300 backdrop-blur-md flex flex-col items-center justify-center text-center shrink-0 cursor-default select-none group"
+            {/* Exact Duplicate List for 100% Seamless -50% Loop */}
+            <ul className="flex items-center shrink-0 list-none m-0 p-0" aria-hidden="true">
+              {row1Copy.map((brand, idx) => (
+                <li
+                  key={`r1-dup-${brand.name}-${idx}`}
+                  className="shrink-0 pr-6 sm:pr-8 whitespace-nowrap"
+                  tabIndex={-1}
                 >
-                  <span className="text-sm sm:text-base font-bold text-zinc-200 group-hover:text-accent transition-colors tracking-tight whitespace-nowrap">
-                    {brand.name}
-                  </span>
-                  <span className="text-[10px] sm:text-[11px] font-mono text-zinc-500 group-hover:text-zinc-400 tracking-tight mt-0.5 whitespace-nowrap">
-                    {brand.category}
-                  </span>
-                </div>
+                  <div className="h-[74px] sm:h-[80px] px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl bg-[#050B2E]/60 border border-white/[0.08] hover:border-accent hover:shadow-[0_0_24px_rgba(34,211,238,0.35)] hover:bg-[#050B2E]/90 transition-all duration-300 backdrop-blur-md flex flex-col items-center justify-center text-center cursor-default select-none group">
+                    <span className="text-sm sm:text-base font-bold text-zinc-200 group-hover:text-accent transition-colors tracking-tight whitespace-nowrap">
+                      {brand.name}
+                    </span>
+                    <span className="text-[10px] sm:text-[11px] font-mono text-zinc-500 group-hover:text-zinc-400 tracking-tight mt-0.5 whitespace-nowrap">
+                      {brand.category}
+                    </span>
+                  </div>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </div>
 
-        {/* --- Track 2: Moving Left-to-Right (Westbound Train, Layered Effect) --- */}
-        <div className="marquee-container relative w-full overflow-hidden marquee-fade-mask">
-          <div className="marquee-track animate-train-right">
-            {/* Primary Track Set */}
-            <div className="flex shrink-0 items-center gap-6 sm:gap-7 pr-6 sm:pr-7" role="list">
-              {row2Half.map((brand, idx) => (
-                <div
-                  key={`r2-a-${brand.name}-${idx}`}
+        {/* Track 2: Moving Left-to-Right (marquee-right, 45s) */}
+        <div className="marquee mt-5 sm:mt-6">
+          <div className="marquee-track marquee-track--right">
+            {/* Original List */}
+            <ul className="flex items-center shrink-0 list-none m-0 p-0" role="list">
+              {row2Copy.map((brand, idx) => (
+                <li
+                  key={`r2-orig-${brand.name}-${idx}`}
+                  className="shrink-0 pr-6 sm:pr-8 whitespace-nowrap"
                   role="listitem"
-                  className="px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl bg-[#050B2E]/60 border border-white/[0.08] hover:border-accent hover:shadow-[0_0_24px_rgba(34,211,238,0.35)] hover:bg-[#050B2E]/90 transition-all duration-300 backdrop-blur-md flex flex-col items-center justify-center text-center shrink-0 cursor-default select-none group"
                 >
-                  <span className="text-sm sm:text-base font-bold text-zinc-200 group-hover:text-accent transition-colors tracking-tight whitespace-nowrap">
-                    {brand.name}
-                  </span>
-                  <span className="text-[10px] sm:text-[11px] font-mono text-zinc-500 group-hover:text-zinc-400 tracking-tight mt-0.5 whitespace-nowrap">
-                    {brand.category}
-                  </span>
-                </div>
+                  <div className="h-[74px] sm:h-[80px] px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl bg-[#050B2E]/60 border border-white/[0.08] hover:border-accent hover:shadow-[0_0_24px_rgba(34,211,238,0.35)] hover:bg-[#050B2E]/90 transition-all duration-300 backdrop-blur-md flex flex-col items-center justify-center text-center cursor-default select-none group">
+                    <span className="text-sm sm:text-base font-bold text-zinc-200 group-hover:text-accent transition-colors tracking-tight whitespace-nowrap">
+                      {brand.name}
+                    </span>
+                    <span className="text-[10px] sm:text-[11px] font-mono text-zinc-500 group-hover:text-zinc-400 tracking-tight mt-0.5 whitespace-nowrap">
+                      {brand.category}
+                    </span>
+                  </div>
+                </li>
               ))}
-            </div>
+            </ul>
 
-            {/* Duplicate Track Set for 100% Seamless Looping */}
-            <div
-              className="flex shrink-0 items-center gap-6 sm:gap-7 pr-6 sm:pr-7"
-              aria-hidden="true"
-            >
-              {row2Half.map((brand, idx) => (
-                <div
-                  key={`r2-b-${brand.name}-${idx}`}
-                  className="px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl bg-[#050B2E]/60 border border-white/[0.08] hover:border-accent hover:shadow-[0_0_24px_rgba(34,211,238,0.35)] hover:bg-[#050B2E]/90 transition-all duration-300 backdrop-blur-md flex flex-col items-center justify-center text-center shrink-0 cursor-default select-none group"
+            {/* Exact Duplicate List for 100% Seamless -50% Loop */}
+            <ul className="flex items-center shrink-0 list-none m-0 p-0" aria-hidden="true">
+              {row2Copy.map((brand, idx) => (
+                <li
+                  key={`r2-dup-${brand.name}-${idx}`}
+                  className="shrink-0 pr-6 sm:pr-8 whitespace-nowrap"
+                  tabIndex={-1}
                 >
-                  <span className="text-sm sm:text-base font-bold text-zinc-200 group-hover:text-accent transition-colors tracking-tight whitespace-nowrap">
-                    {brand.name}
-                  </span>
-                  <span className="text-[10px] sm:text-[11px] font-mono text-zinc-500 group-hover:text-zinc-400 tracking-tight mt-0.5 whitespace-nowrap">
-                    {brand.category}
-                  </span>
-                </div>
+                  <div className="h-[74px] sm:h-[80px] px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl bg-[#050B2E]/60 border border-white/[0.08] hover:border-accent hover:shadow-[0_0_24px_rgba(34,211,238,0.35)] hover:bg-[#050B2E]/90 transition-all duration-300 backdrop-blur-md flex flex-col items-center justify-center text-center cursor-default select-none group">
+                    <span className="text-sm sm:text-base font-bold text-zinc-200 group-hover:text-accent transition-colors tracking-tight whitespace-nowrap">
+                      {brand.name}
+                    </span>
+                    <span className="text-[10px] sm:text-[11px] font-mono text-zinc-500 group-hover:text-zinc-400 tracking-tight mt-0.5 whitespace-nowrap">
+                      {brand.category}
+                    </span>
+                  </div>
+                </li>
               ))}
-            </div>
+            </ul>
           </div>
         </div>
-      </div>
-
-      {/* =========================================================================
-          2. Static Wrapped Grid (Only displayed for prefers-reduced-motion)
-          ========================================================================= */}
-      <div
-        className="hidden motion-reduce:flex flex-wrap justify-center gap-4 max-w-6xl mx-auto px-4 py-2"
-        role="list"
-      >
-        {brands.map((brand) => (
-          <div
-            key={`reduced-${brand.name}`}
-            role="listitem"
-            className="px-6 py-3.5 rounded-2xl bg-[#050B2E]/60 border border-white/[0.08] hover:border-accent hover:shadow-[0_0_24px_rgba(34,211,238,0.35)] transition-all flex flex-col items-center justify-center text-center cursor-default group"
-          >
-            <span className="text-sm sm:text-base font-bold text-zinc-200 group-hover:text-accent transition-colors tracking-tight">
-              {brand.name}
-            </span>
-            <span className="text-[10px] sm:text-[11px] font-mono text-zinc-500 group-hover:text-zinc-400 tracking-tight mt-0.5">
-              {brand.category}
-            </span>
-          </div>
-        ))}
       </div>
     </section>
   );

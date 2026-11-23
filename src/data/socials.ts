@@ -41,20 +41,6 @@ export const SOCIALS = {
     subject: "Video Editing Inquiry",
     mailto: "mailto:dhairyakulsange16@gmail.com?subject=Video%20Editing%20Inquiry",
   },
-  // Placeholders retained as requested
-  whatsapp: {
-    id: "whatsapp",
-    name: "WhatsApp",
-    // TODO: Dhairya to replace +919999999999 with his actual WhatsApp phone number
-    url: "https://wa.me/919999999999?text=Hi%20Dhairya,%20I%20saw%20your%20portfolio%20and%20want%20to%20discuss%20a%20video%20project",
-  },
-  youtube: {
-    id: "youtube",
-    name: "YouTube",
-    // TODO: Dhairya to replace https://youtube.com/@dhairya_creates with his actual YouTube channel URL
-    url: "https://youtube.com/@dhairya_creates",
-    handle: "@dhairya_creates",
-  },
 } as const;
 
 export type SocialPlatform = keyof typeof SOCIALS;

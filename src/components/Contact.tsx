@@ -4,14 +4,12 @@ import React, { useState } from "react";
 import { SectionWrapper } from "./SectionWrapper";
 import {
   Mail,
-  MessageCircle,
   Send,
   MapPin,
   ArrowUpRight,
   CheckCircle2,
   Copy,
   Check,
-  ExternalLink,
 } from "lucide-react";
 import { SOCIALS } from "@/data/socials";
 import {
@@ -263,56 +261,6 @@ export function Contact() {
                 <ArrowUpRight className="w-4 h-4 text-zinc-400 group-hover:text-accent group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
               </a>
 
-              {/* WhatsApp (Retained placeholder as instructed) */}
-              {/* TODO: Dhairya to replace +919999999999 with his actual WhatsApp phone number */}
-              <a
-                href={SOCIALS.whatsapp.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Chat on WhatsApp"
-                className="flex items-center justify-between p-4 rounded-2xl bg-emerald-950/20 border border-emerald-500/20 hover:border-emerald-500/60 hover:bg-emerald-950/40 transition-all group shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400"
-              >
-                <div className="flex items-center gap-3.5">
-                  <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-emerald-400">
-                    <MessageCircle className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <span className="block text-[10px] uppercase font-bold text-emerald-400 tracking-wider">
-                      Instant Chat
-                    </span>
-                    <span className="text-sm font-bold text-white">Chat on WhatsApp</span>
-                  </div>
-                </div>
-                <ArrowUpRight className="w-4 h-4 text-emerald-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-              </a>
-
-              {/* YouTube Channel (Retained placeholder as instructed) */}
-              {/* TODO: Dhairya to replace https://youtube.com/@dhairya_creates with his actual YouTube channel URL */}
-              <a
-                href={SOCIALS.youtube.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={`YouTube Channel (${SOCIALS.youtube.handle})`}
-                className="flex items-center justify-between p-4 rounded-2xl bg-[#030712] border border-white/10 hover:border-red-500/40 hover:bg-red-950/20 transition-all group shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
-              >
-                <div className="flex items-center gap-3.5">
-                  <div className="w-10 h-10 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-red-400">
-                    <svg className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-                    </svg>
-                  </div>
-                  <div>
-                    <span className="block text-[10px] uppercase font-bold text-zinc-400 tracking-wider">
-                      YouTube Portfolio
-                    </span>
-                    <span className="text-sm font-semibold text-white">
-                      {SOCIALS.youtube.handle}
-                    </span>
-                  </div>
-                </div>
-                <ArrowUpRight className="w-4 h-4 text-zinc-400 group-hover:text-red-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
-              </a>
-
               {/* Location Badge */}
               <div className="flex items-center gap-3.5 p-4 rounded-2xl bg-[#030712] border border-white/5">
                 <div className="w-10 h-10 rounded-xl bg-zinc-900 border border-white/10 flex items-center justify-center text-zinc-400">
@@ -348,7 +296,7 @@ export function Contact() {
                 </div>
                 <h4 className="text-lg font-bold text-white">Inquiry Received!</h4>
                 <p className="text-xs text-zinc-300 max-w-sm mx-auto">
-                  Thank you! I will review your requirements and reach out via email or WhatsApp shortly.
+                  Thank you! I will review your requirements and reach out via email shortly.
                 </p>
                 <button
                   onClick={() => setSubmitted(false)}
@@ -402,7 +350,7 @@ export function Contact() {
                       <option value="reels">Short-Form & Reels Editing</option>
                       <option value="production">End-to-End Production & Cameraman</option>
                       <option value="commercial">Commercial / Brand Film</option>
-                      <option value="youtube">YouTube Long-Form + Thumbnails</option>
+                      <option value="longform">Long-Form Commercial & Narrative</option>
                       <option value="retainer">Monthly Video Retainer</option>
                     </select>
                   </div>

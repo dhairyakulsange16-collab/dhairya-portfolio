@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     "Nagpur Video Editor",
     "Commercial Video Production",
     "Short-Form Video",
-    "YouTube Editing",
+    "Commercial Video Editing",
     "Dhairya Portfolio",
     "editby.dhiru",
     "editbydhiru",

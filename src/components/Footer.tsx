@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { ArrowUp, Mail, MessageCircle, ArrowUpRight } from "lucide-react";
+import { ArrowUp, Mail, ArrowUpRight } from "lucide-react";
 import { SOCIALS } from "@/data/socials";
 import { InstagramIcon, ThreadsIcon, XIcon, DiscordIcon, openDiscord } from "./SocialIcons";
 
@@ -121,30 +121,6 @@ export function Footer() {
             >
               <DiscordIcon className="w-4 h-4" />
             </button>
-
-            {/* WhatsApp (Retained placeholder) */}
-            <a
-              href={SOCIALS.whatsapp.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2.5 rounded-xl bg-[#050B2E]/80 border border-white/10 hover:border-emerald-400 hover:text-emerald-400 hover:shadow-[0_0_12px_rgba(52,211,153,0.3)] transition-all text-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-              aria-label="WhatsApp Direct"
-            >
-              <MessageCircle className="w-4 h-4" />
-            </a>
-
-            {/* YouTube (Retained placeholder) */}
-            <a
-              href={SOCIALS.youtube.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="p-2.5 rounded-xl bg-[#050B2E]/80 border border-white/10 hover:border-red-400 hover:text-red-400 hover:shadow-[0_0_12px_rgba(248,113,113,0.3)] transition-all text-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-              aria-label="YouTube Channel"
-            >
-              <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
-              </svg>
-            </a>
           </div>
         </div>
 

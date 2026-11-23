@@ -79,7 +79,7 @@ export function StatsStrip() {
       value: 10,
       suffix: "M+",
       label: "Organic Impressions",
-      sublabel: "Across Instagram & YouTube",
+      sublabel: "Across Brand Socials & Campaigns",
       icon: Zap,
     },
   ];

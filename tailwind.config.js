@@ -44,8 +44,6 @@ module.exports = {
         "fade-in": "fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards",
         "pulse-glow": "pulseGlow 3s ease-in-out infinite",
         "streak-move": "streakMove 12s linear infinite",
-        "marquee-train": "marqueeTrain var(--marquee-duration, 35s) linear infinite",
-        "marquee-train-reverse": "marqueeTrainReverse var(--marquee-duration-reverse, 42s) linear infinite",
       },
       keyframes: {
         fadeIn: {
@@ -59,14 +57,6 @@ module.exports = {
         streakMove: {
           "0%": { transform: "translateX(-100%) translateY(-100%) rotate(-45deg)" },
           "100%": { transform: "translateX(200%) translateY(200%) rotate(-45deg)" },
-        },
-        marqueeTrain: {
-          "0%": { transform: "translate3d(0, 0, 0)" },
-          "100%": { transform: "translate3d(-50%, 0, 0)" },
-        },
-        marqueeTrainReverse: {
-          "0%": { transform: "translate3d(-50%, 0, 0)" },
-          "100%": { transform: "translate3d(0, 0, 0)" },
         },
       },
     },
