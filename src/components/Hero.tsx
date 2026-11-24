@@ -6,6 +6,7 @@ import Link from "next/link";
 import { ArrowDown, ArrowUpRight, Sparkles, Film, Video, Scissors } from "lucide-react";
 import { SOCIALS } from "@/data/socials";
 import { InstagramIcon, ThreadsIcon, XIcon, DiscordIcon, openDiscord } from "./SocialIcons";
+import { safeTrack } from "@/lib/analytics";
 
 export function Hero() {
   const titles = ["Video Editor", "Cameraman", "Content Creator"];
@@ -94,6 +95,7 @@ export function Hero() {
         <div className="mt-6 sm:mt-10 flex flex-wrap items-center justify-center gap-3 sm:gap-4">
           <Link
             href="#work"
+            onClick={() => safeTrack("view_work_click")}
             className="btn-primary-pill inline-flex items-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full text-xs sm:text-sm tracking-wide shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
             <span>View My Work</span>
@@ -102,6 +104,7 @@ export function Hero() {
 
           <Link
             href="#contact"
+            onClick={() => safeTrack("hire_me_click")}
             className="btn-secondary-pill inline-flex items-center gap-2 px-6 sm:px-7 py-3 sm:py-3.5 rounded-full text-xs sm:text-sm tracking-wide backdrop-blur-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
             <span>Hire Me</span>
@@ -115,6 +118,7 @@ export function Hero() {
             href={SOCIALS.instagram.url}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => safeTrack("contact_click", { channel: "instagram" })}
             aria-label="Instagram Profile (@editby.dhiru)"
             className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10 hover:border-accent hover:shadow-[0_0_15px_rgba(34,211,238,0.3)] text-zinc-400 hover:text-white transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
@@ -125,6 +129,7 @@ export function Hero() {
             href={SOCIALS.threads.url}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => safeTrack("contact_click", { channel: "threads" })}
             aria-label="Threads Profile (@editby.dhiru)"
             className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10 hover:border-accent hover:shadow-[0_0_15px_rgba(34,211,238,0.3)] text-zinc-400 hover:text-white transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
@@ -135,6 +140,7 @@ export function Hero() {
             href={SOCIALS.x.url}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => safeTrack("contact_click", { channel: "x" })}
             aria-label="X Profile (@editbydhiru)"
             className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10 hover:border-accent hover:shadow-[0_0_15px_rgba(34,211,238,0.3)] text-zinc-400 hover:text-white transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
@@ -143,7 +149,10 @@ export function Hero() {
 
           <button
             type="button"
-            onClick={openDiscord}
+            onClick={() => {
+              safeTrack("contact_click", { channel: "discord" });
+              openDiscord();
+            }}
             aria-label="Discord Profile (User ID: 1108795562758770828)"
             className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10 hover:border-accent hover:shadow-[0_0_15px_rgba(34,211,238,0.3)] text-zinc-400 hover:text-white transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             title="Open in Discord"

@@ -20,6 +20,7 @@ import {
   openDiscord,
   ToastNotification,
 } from "./SocialIcons";
+import { safeTrack } from "@/lib/analytics";
 
 export function Contact() {
   const [submitted, setSubmitted] = useState(false);
@@ -94,6 +95,7 @@ export function Contact() {
                 <div className="flex items-center justify-between gap-3">
                   <a
                     href={SOCIALS.email.mailto}
+                    onClick={() => safeTrack("contact_click", { channel: "email" })}
                     aria-label={`Send inquiry email to ${SOCIALS.email.address}`}
                     className="flex items-center gap-3.5 flex-1 min-w-0 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-lg"
                   >
@@ -113,7 +115,10 @@ export function Contact() {
                   <div className="flex items-center gap-1.5 shrink-0">
                     <button
                       type="button"
-                      onClick={() => copyToClipboard(SOCIALS.email.address, "Email address", "email")}
+                      onClick={() => {
+                        copyToClipboard(SOCIALS.email.address, "Email address", "email");
+                        safeTrack("contact_click", { channel: "email" });
+                      }}
                       title="Copy email address"
                       aria-label="Copy email address"
                       className="p-2 rounded-lg bg-white/[0.04] border border-white/10 hover:border-accent hover:text-accent text-zinc-400 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
@@ -126,6 +131,7 @@ export function Contact() {
                     </button>
                     <a
                       href={SOCIALS.email.mailto}
+                      onClick={() => safeTrack("contact_click", { channel: "email" })}
                       aria-label="Open email client"
                       className="p-2 rounded-lg bg-white/[0.04] border border-white/10 hover:border-accent text-zinc-400 hover:text-accent transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                     >
@@ -140,7 +146,10 @@ export function Contact() {
                 <div className="flex items-center justify-between gap-3">
                   <button
                     type="button"
-                    onClick={openDiscord}
+                    onClick={() => {
+                      openDiscord();
+                      safeTrack("contact_click", { channel: "discord" });
+                    }}
                     aria-label="Open Discord (User ID: 1108795562758770828)"
                     className="flex items-center gap-3.5 flex-1 min-w-0 text-left cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-lg"
                   >
@@ -165,7 +174,10 @@ export function Contact() {
                   <div className="flex items-center gap-1.5 shrink-0">
                     <button
                       type="button"
-                      onClick={() => copyToClipboard(SOCIALS.discord.userId, "Discord User ID", "discord")}
+                      onClick={() => {
+                        copyToClipboard(SOCIALS.discord.userId, "Discord User ID", "discord");
+                        safeTrack("contact_click", { channel: "discord" });
+                      }}
                       title="Copy Discord User ID"
                       aria-label="Copy Discord User ID"
                       className="p-2 rounded-lg bg-white/[0.04] border border-white/10 hover:border-accent hover:text-accent text-zinc-400 transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
@@ -178,7 +190,10 @@ export function Contact() {
                     </button>
                     <button
                       type="button"
-                      onClick={openDiscord}
+                      onClick={() => {
+                        openDiscord();
+                        safeTrack("contact_click", { channel: "discord" });
+                      }}
                       title="Launch Discord"
                       aria-label="Launch Discord"
                       className="p-2 rounded-lg bg-white/[0.04] border border-white/10 hover:border-accent text-zinc-400 hover:text-accent transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
@@ -194,6 +209,7 @@ export function Contact() {
                 href={SOCIALS.instagram.url}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => safeTrack("contact_click", { channel: "instagram" })}
                 aria-label={`Instagram Profile (${SOCIALS.instagram.handle})`}
                 className="flex items-center justify-between p-4 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-accent hover:shadow-[0_0_22px_rgba(34,211,238,0.25)] transition-all group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
@@ -218,6 +234,7 @@ export function Contact() {
                 href={SOCIALS.threads.url}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => safeTrack("contact_click", { channel: "threads" })}
                 aria-label={`Threads Profile (${SOCIALS.threads.handle})`}
                 className="flex items-center justify-between p-4 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-accent hover:shadow-[0_0_22px_rgba(34,211,238,0.25)] transition-all group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
@@ -242,6 +259,7 @@ export function Contact() {
                 href={SOCIALS.x.url}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => safeTrack("contact_click", { channel: "x" })}
                 aria-label={`X Profile (${SOCIALS.x.handle})`}
                 className="flex items-center justify-between p-4 rounded-2xl bg-white/[0.03] border border-white/10 hover:border-accent hover:shadow-[0_0_22px_rgba(34,211,238,0.25)] transition-all group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >

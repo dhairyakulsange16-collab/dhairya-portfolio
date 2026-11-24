@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { SOCIALS } from "@/data/socials";
 import { GlassBackdrop } from "@/components/GlassBackdrop";
+import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -116,6 +118,8 @@ export default function RootLayout({
       <body className="min-h-screen bg-transparent text-zinc-100 antialiased selection:bg-accent selection:text-black relative">
         <GlassBackdrop />
         {children}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

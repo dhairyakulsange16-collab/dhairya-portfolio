@@ -3,6 +3,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Play, VolumeX, Sparkles } from "lucide-react";
 import { Project } from "@/data/projects";
+import { safeTrack } from "@/lib/analytics";
 
 interface VideoCardProps {
   project: Project;
@@ -79,10 +80,15 @@ export function VideoCard({
     }
   };
 
+  const handleClick = () => {
+    safeTrack("video_open", { category: project.category });
+    onSelect(project);
+  };
+
   return (
     <div
       ref={cardRef}
-      onClick={() => onSelect(project)}
+      onClick={handleClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onTouchStart={handleTouch}
@@ -96,7 +102,7 @@ export function VideoCard({
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
-          onSelect(project);
+          handleClick();
         }
       }}
       aria-label={`View ${project.title}`}

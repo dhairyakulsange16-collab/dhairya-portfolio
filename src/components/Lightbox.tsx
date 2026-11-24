@@ -18,6 +18,7 @@ import {
   HardDrive,
 } from "lucide-react";
 import { Project } from "@/data/projects";
+import { safeTrack } from "@/lib/analytics";
 
 interface LightboxProps {
   project: Project | null;
@@ -45,10 +46,11 @@ export function Lightbox({ project, projects, onClose, onNavigate }: LightboxPro
   const prevProject = currentIndex > 0 ? projects[currentIndex - 1] : projects[projects.length - 1];
   const nextProject = currentIndex < projects.length - 1 ? projects[currentIndex + 1] : projects[0];
 
-  // Lock body scroll when open
+  // Lock body scroll when open & track video view
   useEffect(() => {
     if (project) {
       document.body.style.overflow = "hidden";
+      safeTrack("video_open", { category: project.category });
     } else {
       document.body.style.overflow = "unset";
     }

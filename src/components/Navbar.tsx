@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Menu, X, ArrowUpRight, Sparkles } from "lucide-react";
+import { safeTrack } from "@/lib/analytics";
 
 export function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -110,6 +111,7 @@ export function Navbar() {
 
             <Link
               href="#contact"
+              onClick={() => safeTrack("hire_me_click")}
               aria-label="Hire Me - Jump to Contact section"
               className="btn-primary-pill inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-medium shadow-sm hover:scale-[1.02] active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
             >
@@ -150,7 +152,10 @@ export function Navbar() {
               ))}
               <Link
                 href="#contact"
-                onClick={() => setMobileMenuOpen(false)}
+                onClick={() => {
+                  safeTrack("hire_me_click");
+                  setMobileMenuOpen(false);
+                }}
                 aria-label="Hire Me - Jump to Contact section"
                 className="mt-2 text-center py-3 rounded-full text-sm font-semibold bg-gradient-to-r from-primary to-accent text-white shadow-lg shadow-primary/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
               >
