@@ -31,7 +31,7 @@ const CATEGORY_CONFIGS: CategoryConfig[] = [
     name: "Commercial Brand Campaigns",
     badge: "Commercial",
     description: "High-production brand advertisements, food styling, and broadcast-ready commercials.",
-    type: "grid",
+    type: "carousel",
   },
   {
     key: "Outdoor Shoots",
@@ -148,23 +148,26 @@ export function WorkSections({ projects, onSelectProject }: WorkSectionsProps) {
           return (
             <section
               key={config.key}
-              className="relative p-6 sm:p-8 rounded-3xl bg-[#030712]/50 border border-white/[0.06] backdrop-blur-sm"
+              className="glass-card relative p-6 sm:p-8 rounded-3xl"
             >
               {/* Category Header */}
               <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
                 <div>
-                  <div className="inline-flex items-center gap-1.5 text-xs font-bold text-accent uppercase tracking-widest mb-1.5">
-                    <Sparkles className="w-3 h-3" />
+                  <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-accent uppercase tracking-widest mb-2">
+                    <Sparkles className="w-3 h-3 text-accent" />
                     <span>{config.badge}</span>
                     <span className="text-zinc-600">•</span>
                     <span className="font-mono text-zinc-400">
                       {categoryProjects.length} {categoryProjects.length === 1 ? "Video" : "Videos"}
                     </span>
                   </div>
-                  <h3 className="text-2xl sm:text-3xl font-black text-white tracking-tight uppercase">
-                    {config.name}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-zinc-400 mt-1 max-w-xl">
+                  <div className="relative inline-block pb-2">
+                    <h3 className="text-2xl sm:text-3xl font-light sm:font-normal text-white tracking-tight uppercase">
+                      {config.name}
+                    </h3>
+                    <div className="absolute bottom-0 left-0 w-20 h-[2px] bg-gradient-to-r from-[#1E5BFF] to-[#22D3EE] rounded-full" />
+                  </div>
+                  <p className="text-xs sm:text-sm text-zinc-400 mt-2 max-w-xl font-light">
                     {config.description}
                   </p>
                 </div>

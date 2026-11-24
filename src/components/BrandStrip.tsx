@@ -70,7 +70,7 @@ export function BrandStrip() {
                   className="shrink-0 pr-6 sm:pr-8 whitespace-nowrap"
                   role="listitem"
                 >
-                  <div className="h-[74px] sm:h-[80px] px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08)] hover:border-accent hover:shadow-[0_0_20px_rgba(34,211,238,0.25)] hover:bg-white/[0.06] transition-all duration-300 backdrop-blur-md flex flex-col items-center justify-center text-center cursor-default select-none group">
+                  <div className="glass-card h-[74px] sm:h-[80px] px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl flex flex-col items-center justify-center text-center cursor-default select-none group">
                     <span className="text-sm sm:text-base font-medium text-zinc-200 group-hover:text-accent transition-colors tracking-tight whitespace-nowrap">
                       {brand.name}
                     </span>
@@ -90,7 +90,7 @@ export function BrandStrip() {
                   className="shrink-0 pr-6 sm:pr-8 whitespace-nowrap"
                   tabIndex={-1}
                 >
-                  <div className="h-[74px] sm:h-[80px] px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08)] hover:border-accent hover:shadow-[0_0_20px_rgba(34,211,238,0.25)] hover:bg-white/[0.06] transition-all duration-300 backdrop-blur-md flex flex-col items-center justify-center text-center cursor-default select-none group">
+                  <div className="glass-card h-[74px] sm:h-[80px] px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl flex flex-col items-center justify-center text-center cursor-default select-none group">
                     <span className="text-sm sm:text-base font-medium text-zinc-200 group-hover:text-accent transition-colors tracking-tight whitespace-nowrap">
                       {brand.name}
                     </span>
@@ -115,7 +115,7 @@ export function BrandStrip() {
                   className="shrink-0 pr-6 sm:pr-8 whitespace-nowrap"
                   role="listitem"
                 >
-                  <div className="h-[74px] sm:h-[80px] px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08)] hover:border-accent hover:shadow-[0_0_20px_rgba(34,211,238,0.25)] hover:bg-white/[0.06] transition-all duration-300 backdrop-blur-md flex flex-col items-center justify-center text-center cursor-default select-none group">
+                  <div className="glass-card h-[74px] sm:h-[80px] px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl flex flex-col items-center justify-center text-center cursor-default select-none group">
                     <span className="text-sm sm:text-base font-medium text-zinc-200 group-hover:text-accent transition-colors tracking-tight whitespace-nowrap">
                       {brand.name}
                     </span>
@@ -135,7 +135,7 @@ export function BrandStrip() {
                   className="shrink-0 pr-6 sm:pr-8 whitespace-nowrap"
                   tabIndex={-1}
                 >
-                  <div className="h-[74px] sm:h-[80px] px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl bg-white/[0.03] border border-white/[0.08] shadow-[inset_0_1px_0_0_rgba(255,255,255,0.08)] hover:border-accent hover:shadow-[0_0_20px_rgba(34,211,238,0.25)] hover:bg-white/[0.06] transition-all duration-300 backdrop-blur-md flex flex-col items-center justify-center text-center cursor-default select-none group">
+                  <div className="glass-card h-[74px] sm:h-[80px] px-6 py-3.5 sm:px-7 sm:py-4 rounded-2xl flex flex-col items-center justify-center text-center cursor-default select-none group">
                     <span className="text-sm sm:text-base font-medium text-zinc-200 group-hover:text-accent transition-colors tracking-tight whitespace-nowrap">
                       {brand.name}
                     </span>

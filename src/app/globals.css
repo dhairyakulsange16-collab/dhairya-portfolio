@@ -14,6 +14,11 @@
   --rim-warm: #F2C9A0;
   --sand: #D9D2B8;
 
+  /* Global Glassmorphism Tokens */
+  --glass-bg: rgba(255, 255, 255, 0.05);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-blur: 18px;
+
   /* Animation Master Speed Multiplier (1 = default, 2 = 2x faster, 0.5 = 2x slower) */
   --bg-speed: 1;
 
@@ -71,26 +76,28 @@ body {
 
 /* Minimal Glass Panels & Cards matching reference */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02));
+  backdrop-filter: blur(var(--glass-blur, 18px)) saturate(150%);
+  -webkit-backdrop-filter: blur(var(--glass-blur, 18px)) saturate(150%);
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.12));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 8px 32px rgba(0, 0, 0, 0.35);
+  border-radius: 18px;
 }
 
 .glass-card {
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.10), rgba(255, 255, 255, 0.03));
+  backdrop-filter: blur(var(--glass-blur, 18px)) saturate(150%);
+  -webkit-backdrop-filter: blur(var(--glass-blur, 18px)) saturate(150%);
+  border: 1px solid var(--glass-border, rgba(255, 255, 255, 0.12));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 8px 32px rgba(0, 0, 0, 0.35);
+  border-radius: 18px;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .glass-card:hover {
-  border-color: rgba(34, 211, 238, 0.35);
-  background: rgba(255, 255, 255, 0.045);
-  box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.12), 0 0 20px -3px rgba(34, 211, 238, 0.2);
+  border-color: rgba(34, 211, 238, 0.45);
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.05));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.24), 0 0 25px -2px rgba(34, 211, 238, 0.28), 0 12px 40px rgba(0, 0, 0, 0.45);
 }
 
 /* Minimalist Button Styles */
@@ -325,6 +332,49 @@ body {
   }
 }
 
+/* 7. Floating Glass Orbs */
+@keyframes backdropOrb1 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.18;
+  }
+  50% {
+    opacity: 0.30;
+  }
+  100% {
+    transform: translate3d(4vw, -5vh, 0) scale(1.12);
+    opacity: 0.20;
+  }
+}
+
+@keyframes backdropOrb2 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.22;
+  }
+  50% {
+    opacity: 0.15;
+  }
+  100% {
+    transform: translate3d(-5vw, 6vh, 0) scale(1.15);
+    opacity: 0.28;
+  }
+}
+
+@keyframes backdropOrb3 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.16;
+  }
+  50% {
+    opacity: 0.26;
+  }
+  100% {
+    transform: translate3d(3vw, 4vh, 0) scale(1.08);
+    opacity: 0.18;
+  }
+}
+
 /* Animated Backdrop Static Classes */
 .backdrop-band-left {
   animation: backdropBandLeft calc(32s / var(--bg-speed, 1)) ease-in-out infinite alternate;
@@ -376,6 +426,29 @@ body {
   transform: translateZ(0);
 }
 
+.backdrop-orb-1 {
+  animation: backdropOrb1 calc(22s / var(--bg-speed, 1)) ease-in-out infinite alternate;
+  animation-play-state: running;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+.backdrop-orb-2 {
+  animation: backdropOrb2 calc(28s / var(--bg-speed, 1)) ease-in-out infinite alternate;
+  animation-delay: calc(-9s / var(--bg-speed, 1));
+  animation-play-state: running;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+.backdrop-orb-3 {
+  animation: backdropOrb3 calc(36s / var(--bg-speed, 1)) ease-in-out infinite alternate;
+  animation-delay: calc(-17s / var(--bg-speed, 1));
+  animation-play-state: running;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
 /* Reduced Motion: gracefully slow down 3x rather than stopping */
 @media (prefers-reduced-motion: reduce) {
   .backdrop-band-left {
@@ -393,5 +466,21 @@ body {
   .backdrop-rim-warm,
   .backdrop-rim-cool {
     animation-duration: calc(54s / var(--bg-speed, 1)) !important;
+  }
+  .backdrop-orb-1 {
+    animation-duration: calc(66s / var(--bg-speed, 1)) !important;
+  }
+  .backdrop-orb-2 {
+    animation-duration: calc(84s / var(--bg-speed, 1)) !important;
+  }
+  .backdrop-orb-3 {
+    animation-duration: calc(108s / var(--bg-speed, 1)) !important;
+  }
+}
+
+/* Mobile Screen Tuning (<768px) */
+@media (max-width: 767px) {
+  .backdrop-grain {
+    opacity: 0.10 !important;
   }
 }

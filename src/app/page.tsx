@@ -3,7 +3,6 @@
 import React, { useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
-import { Showreel } from "@/components/Showreel";
 import { WorkSections } from "@/components/WorkSections";
 import { Services } from "@/components/Services";
 import { StatsStrip } from "@/components/StatsStrip";
@@ -17,13 +16,6 @@ import { PROJECTS, Project } from "@/data/projects";
 export default function Home() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  // Pick the premier commercial showreel from authentic Drive files
-  // (BGauss Motors EV Scooter or Taco Bell Commercial)
-  const showreelProject =
-    PROJECTS.find((p) => p.id === "commercial-shoots-tacobell-2") ||
-    PROJECTS.find((p) => p.id === "outdoor-shoot-final-bgauss-motors-ev-scooter") ||
-    PROJECTS[0];
-
   return (
     <main className="relative z-10 min-h-screen bg-transparent text-zinc-100 flex flex-col selection:bg-accent selection:text-black">
       {/* 0. Sticky Global Navbar with Scroll Progress Bar & Section Tracker */}
@@ -32,21 +24,13 @@ export default function Home() {
       {/* 1. Hero: Animated PFP, Name, Dynamic Taglines, Dual CTAs, Moving Diagonal Lights */}
       <Hero />
 
-      {/* 2. Showreel: Large muted autoplay loop, click to open with sound in Lightbox */}
-      {showreelProject && (
-        <Showreel
-          project={showreelProject}
-          onOpenLightbox={(p) => setSelectedProject(p)}
-        />
-      )}
-
-      {/* 3. Work sections (one per Drive subfolder: vertical snap carousel, horizontal grids) */}
+      {/* 2. Work sections (one per Drive subfolder: vertical snap carousel, horizontal grids) */}
       <WorkSections
         projects={PROJECTS}
         onSelectProject={(p) => setSelectedProject(p)}
       />
 
-      {/* 4. Services: 5 glass cards (End-to-end, Reels, Cameraman, Social posting, SEO) */}
+      {/* 3. Services: 5 glass cards (End-to-end, Reels, Cameraman, Social posting, SEO) */}
       <Services />
 
       {/* 5. Stats strip: Animated count-up (2+ yrs, 40+ brands, auto-calculated project count) */}

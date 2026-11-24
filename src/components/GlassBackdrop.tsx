@@ -29,7 +29,7 @@ export function GlassBackdrop() {
 
   return (
     <div
-      className="fixed inset-0 z-0 overflow-hidden pointer-events-none select-none isolation-isolate"
+      className="fixed inset-0 -z-10 overflow-hidden pointer-events-none select-none isolation-isolate"
       style={{ contain: "strict" }}
       aria-hidden="true"
     >
@@ -195,8 +195,39 @@ export function GlassBackdrop() {
       </div>
 
       {/* =====================================================================
-          5. Glow Bleed: Soft cyan connection where left band meets the arc
+          5. Floating Glass Orbs: Depth layers (3 on Desktop, 2 on Mobile)
           ===================================================================== */}
+      {/* Orb 1: Electric Blue (Mobile + Desktop) */}
+      <div
+        className="backdrop-orb-1 absolute top-[22vh] left-[14vw] sm:left-[18vw] w-[260px] h-[260px] sm:w-[380px] sm:h-[380px] rounded-full pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(30, 91, 255, 0.28) 0%, rgba(30, 91, 255, 0.08) 50%, transparent 70%)",
+          filter: "blur(45px)",
+        }}
+      />
+
+      {/* Orb 2: Neon Cyan (Mobile + Desktop) */}
+      <div
+        className="backdrop-orb-2 absolute top-[55vh] right-[14vw] sm:right-[22vw] w-[240px] h-[240px] sm:w-[350px] sm:h-[350px] rounded-full pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(34, 211, 238, 0.24) 0%, rgba(30, 91, 255, 0.06) 50%, transparent 70%)",
+          filter: "blur(40px)",
+        }}
+      />
+
+      {/* Orb 3: Deep Blue & Cyan Mix (Desktop only, 3rd orb) */}
+      <div
+        className="backdrop-orb-3 hidden sm:block absolute top-[38vh] left-[42vw] w-[320px] h-[320px] rounded-full pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(circle, rgba(10, 42, 143, 0.26) 0%, rgba(34, 211, 238, 0.12) 45%, transparent 70%)",
+          filter: "blur(60px)",
+        }}
+      />
+
+      {/* Glow Bleed: Soft cyan connection where left band meets the arc */}
       <div
         className="absolute left-[20vw] sm:left-[26vw] bottom-[12vh] sm:bottom-[15vh] w-[350px] sm:w-[460px] h-[350px] sm:h-[460px] rounded-full pointer-events-none"
         style={{

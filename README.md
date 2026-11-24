@@ -19,7 +19,6 @@ A modern, cinematic portfolio website built for **Dhairya** — Video Editor & C
 
 - **Authentic Footage:** Sourced 100% from Google Drive client archives across 7 production categories.
 - **Dynamic Tagline Hero:** Animated PFP GIF brand anchor with soft cyan glow ring, live typewriter tagline, and dual CTAs.
-- **Featured Commercial Showreel:** Large cinematic widescreen player with muted autoplay loop and click-to-open lightbox.
 - **Adaptive Layouts:** Vertical 9:16 reels in snap-scroll horizontal carousels; horizontal 16:9 films in responsive multi-column grids.
 - **Smart Single-Video Playback:** Autoplay on hover with neon cyan glow, coordinated so only one video plays at a time.
 - **Fullscreen Lightbox Player:** Audio controls, scrub bar, responsive controls, and keyboard navigation (`Esc`, `ArrowLeft`, `ArrowRight`, `Space`, `M`).
@@ -72,15 +71,21 @@ This compiles the static pages and verifies TypeScript types with 0 errors.
 │   └── assets/             # Web-optimized MP4s, poster JPEGs & brand assets
 ├── src/
 │   ├── app/
-│   │   ├── globals.css     # Theme tokens & neon glow utilities
+│   │   ├── globals.css     # Theme tokens, glassmorphism utilities & keyframes
 │   │   ├── layout.tsx      # Metadata, Open Graph & JSON-LD Person schema
 │   │   ├── page.tsx        # Single-page layout composition
 │   │   ├── robots.ts       # Robots.txt generator
 │   │   └── sitemap.ts      # Sitemap generator
-│   ├── components/         # Hero, WorkSections, Showreel, Services, Lightbox, etc.
+│   ├── components/         # Hero, WorkSections, Services, Lightbox, etc.
 │   └── data/
 │       ├── projects.ts     # Typed catalog of 43 Drive projects
 │       └── socials.ts      # Central source of truth for social handles
+├── tools/                  # Pipeline and verification toolchain
+│   ├── process_pipeline.py # Media compression and poster extraction pipeline
+│   ├── verify_drive.py     # 1:1 Parity verifier between Drive archive & /public/assets
+│   ├── all_drive_files.json, drive_with_local.json, local_mapped_drive_files.json
+│   ├── test-backdrop.js    # Automated headless Chrome test for background transforms
+│   └── test-marquee.js     # Continuous marquee train loop verifier
 └── README.md
 ```
 

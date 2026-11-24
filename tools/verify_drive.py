@@ -2,8 +2,8 @@ import os
 import json
 import re
 
-workspace = r"E:\Dhairya\codes\Dhairya\Portfolio"
-json_path = os.path.join(workspace, "local_mapped_drive_files.json")
+workspace = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+json_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "local_mapped_drive_files.json")
 with open(json_path, "r", encoding="utf-8") as f:
     drive_files = json.load(f)
 

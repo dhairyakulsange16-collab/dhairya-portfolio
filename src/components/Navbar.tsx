@@ -22,7 +22,7 @@ export function Navbar() {
       }
 
       // Active section highlight
-      const sections = ["hero", "showreel", "work", "services", "about", "contact"];
+      const sections = ["hero", "work", "services", "about", "contact"];
       for (const section of sections) {
         const el = document.getElementById(section);
         if (el) {
@@ -41,7 +41,6 @@ export function Navbar() {
 
   const navLinks = [
     { name: "Work", href: "#work", id: "work" },
-    { name: "Showreel", href: "#showreel", id: "showreel" },
     { name: "Services", href: "#services", id: "services" },
     { name: "About", href: "#about", id: "about" },
     { name: "Contact", href: "#contact", id: "contact" },
