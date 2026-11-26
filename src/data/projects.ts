@@ -15,17 +15,29 @@ export interface Project {
   driveFileId: string;
   driveFileName: string;
   tags: string[];
+  source?: "manual-local" | "drive";
+  dateAdded?: string;
 }
+
+/**
+ * Single source of truth for work section category order:
+ * 1. Commercial Brand Campaigns ("Commercial Shoots") FIRST
+ * 2-6. Retained relative order for intermediate production genres
+ * 7. AI UGC & E-Commerce Reels ("AI UGC Videos") LAST
+ */
+export const CATEGORY_ORDER = [
+  "Commercial Shoots",
+  "Outdoor Shoots",
+  "Talking Head & Reels",
+  "Animations & Motion",
+  "Gaming Content",
+  "Podcasts & Long-Form",
+  "AI UGC Videos",
+] as const;
 
 export const CATEGORIES = [
   "All",
-  "AI UGC Videos",
-  "Animations & Motion",
-  "Gaming Content",
-  "Outdoor Shoots",
-  "Commercial Shoots",
-  "Talking Head & Reels",
-  "Podcasts & Long-Form"
+  ...CATEGORY_ORDER,
 ] as const;
 
 export type CategoryType = typeof CATEGORIES[number];
@@ -624,6 +636,31 @@ export const PROJECTS: Project[] = [
       "Vertical",
       "Drive Original"
     ]
+  },
+  {
+    "id": "commercial-shoots-ash-frames",
+    "title": "Ash Frames",
+    "category": "Commercial Shoots",
+    "folder": "Commercial Shoots",
+    "folderSlug": "commercial-shoots",
+    "aspect": "9:16",
+    "orientation": "9:16 Vertical",
+    "videoPath": "/assets/commercial-shoots/ash-frames.mp4",
+    "posterPath": "/assets/commercial-shoots/ash-frames-poster.jpg",
+    "duration": "0:28",
+    "durationSec": 28.2,
+    "resolution": "1080x1920",
+    "sizeFormatted": "14.9 MB",
+    "driveFileId": "manual-local-ash-frames",
+    "driveFileName": "ASH FRAMES.mp4",
+    "tags": [
+      "Commercial",
+      "Brand",
+      "Campaign",
+      "Vertical"
+    ],
+    "source": "manual-local",
+    "dateAdded": "2026-11-26"
   },
   {
     "id": "commercial-shoots-tacobell-2",

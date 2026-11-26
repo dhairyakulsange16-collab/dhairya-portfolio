@@ -3,7 +3,7 @@
 import React, { useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Sparkles, Film, Play } from "lucide-react";
 import { VideoCard } from "./VideoCard";
-import { Project, CATEGORIES, CategoryType } from "@/data/projects";
+import { Project, CATEGORIES, CategoryType, CATEGORY_ORDER } from "@/data/projects";
 
 interface WorkSectionsProps {
   projects: Project[];
@@ -18,57 +18,67 @@ interface CategoryConfig {
   type: "carousel" | "grid";
 }
 
-const CATEGORY_CONFIGS: CategoryConfig[] = [
-  {
-    key: "AI UGC Videos",
-    name: "AI UGC & E-Commerce Reels",
-    badge: "Short-Form",
-    description: "High-converting UGC videos, AI jewelry showcases, and dynamic lifestyle product promotions.",
-    type: "carousel",
-  },
-  {
+const RAW_CATEGORY_CONFIGS: Record<string, CategoryConfig> = {
+  "Commercial Shoots": {
     key: "Commercial Shoots",
     name: "Commercial Brand Campaigns",
     badge: "Commercial",
     description: "High-production brand advertisements, food styling, and broadcast-ready commercials.",
     type: "carousel",
   },
-  {
+  "Outdoor Shoots": {
     key: "Outdoor Shoots",
     name: "On-Location & Event Shoots",
     badge: "Cinematography",
     description: "Real-world footage, international trade exhibitions in Hong Kong & Dubai, and retail launch films.",
     type: "carousel",
   },
-  {
+  "Talking Head & Reels": {
     key: "Talking Head & Reels",
     name: "Talking Head & Founder Reels",
     badge: "Personal Brand",
     description: "Rhythm-cut founder videos, educational content, and high-retention social commentary.",
     type: "carousel",
   },
-  {
+  "Animations & Motion": {
     key: "Animations & Motion",
     name: "Motion Graphics & App Demos",
     badge: "Motion Design",
     description: "SaaS interface animations, kinetic typography, and digital product walkthroughs.",
     type: "grid",
   },
-  {
+  "Gaming Content": {
     key: "Gaming Content",
     name: "Gaming Content & Highlights",
     badge: "Entertainment",
     description: "Fast-paced gaming montages, meme pacing, and viral stream highlights.",
     type: "grid",
   },
-  {
+  "Podcasts & Long-Form": {
     key: "Podcasts & Long-Form",
     name: "Podcasts & Long-Form Videos",
     badge: "Long-Form",
     description: "Multi-camera podcast discussions, real estate property tours, and full-length episodes.",
     type: "grid",
   },
-];
+  "AI UGC Videos": {
+    key: "AI UGC Videos",
+    name: "AI UGC & E-Commerce Reels",
+    badge: "Short-Form",
+    description: "High-converting UGC videos, AI jewelry showcases, and dynamic lifestyle product promotions.",
+    type: "carousel",
+  },
+};
+
+/**
+ * Ordered strictly by CATEGORY_ORDER single source of truth from @/data/projects:
+ * 1. Commercial Brand Campaigns ("Commercial Shoots") - FIRST
+ * 2-6. Intermediate production genres
+ * 7. AI UGC & E-Commerce Reels ("AI UGC Videos") - LAST
+ */
+const CATEGORY_CONFIGS: CategoryConfig[] = CATEGORY_ORDER.map(
+  (key) => RAW_CATEGORY_CONFIGS[key]
+);
 
 export function WorkSections({ projects, onSelectProject }: WorkSectionsProps) {
   const [activePlayingId, setActivePlayingId] = useState<string | null>(null);

@@ -18,6 +18,7 @@ drive_file_map = {item["fileId"]: item for item in drive_files}
 
 drive_count = len(drive_files)
 site_count = len(projects)
+manual_approved = 0
 mismatches = 0
 
 for p in projects:
@@ -31,8 +32,12 @@ for p in projects:
         print("Mismatch poster:", p["posterPath"])
         mismatches += 1
 
-    if p["driveFileId"] not in drive_file_map:
-        print("Mismatch driveFileId:", p["title"])
-        mismatches += 1
+    # Check source: manual-local is approved exception
+    if p.get("source") == "manual-local":
+        manual_approved += 1
+    else:
+        if p["driveFileId"] not in drive_file_map:
+            print("Mismatch driveFileId:", p["title"])
+            mismatches += 1
 
-print(f"Drive files found: {drive_count}, videos in site: {site_count}, mismatches: {mismatches}")
+print(f"Drive files found: {drive_count}, videos in site: {site_count}, manual approved: {manual_approved}, mismatches: {mismatches}")
