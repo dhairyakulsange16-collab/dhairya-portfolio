@@ -64,6 +64,37 @@ This compiles the static pages and verifies TypeScript types with 0 errors.
 
 ---
 
+## Contact Form Setup
+
+The portfolio's **"Send a Project Brief"** contact form submits inquiries directly from the browser to [Web3Forms](https://web3forms.com/) (using their free client-side API, avoiding server-side IP blocks).
+
+### 1. Environment Variable Configuration
+Get a free access key from [web3forms.com](https://web3forms.com/) and configure it:
+
+- **Local Development (`.env.local`):**
+  ```env
+  NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY=your-web3forms-access-key
+  ```
+  *(See `.env.example` for the template. `.env.local` is ignored by Git.)*
+
+- **Vercel Deployment:**
+  1. Open your project on Vercel Dashboard.
+  2. Navigate to **Settings** > **Environment Variables**.
+  3. Add a new variable:
+     - **Key:** `NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY`
+     - **Value:** `your-web3forms-access-key`
+     - **Environments:** Check **Production**, **Preview**, and **Development**.
+  4. **Redeploy** the project (or push a new commit) — `NEXT_PUBLIC_` variables are baked into static assets at build time.
+
+### 2. Client-Side Features & Spam Protection
+- **Direct Browser Submission:** Sends `POST` requests to `https://api.web3forms.com/submit` with standard CORS headers.
+- **Honeypot Protection:** Hidden `botcheck` field catches automated bot submissions.
+- **Minimum Fill Time:** Rejects submissions completed in under 3 seconds to deter scripts.
+- **Client Cooldown & Hourly Limits:** Enforces a 60-second cooldown between messages and a maximum of 3 submissions per hour per browser via `localStorage`.
+- **Inline Validation & Accessible States:** Provides inline error badges with `aria-invalid` / `aria-describedby`, a disabled loading spinner state, and an accessible confirmation panel with a reset option.
+
+---
+
 ## Project Structure
 
 ```

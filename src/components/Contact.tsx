@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { SectionWrapper } from "./SectionWrapper";
 import {
   Mail,
@@ -10,6 +10,8 @@ import {
   CheckCircle2,
   Copy,
   Check,
+  Loader2,
+  AlertCircle,
 } from "lucide-react";
 import { SOCIALS } from "@/data/socials";
 import {
@@ -22,19 +24,86 @@ import {
 } from "./SocialIcons";
 import { safeTrack } from "@/lib/analytics";
 
+type FormStatus = "idle" | "loading" | "success" | "error";
+
+interface FormDataState {
+  name: string;
+  email: string;
+  service: string;
+  budget: string;
+  message: string;
+}
+
+interface FormErrors {
+  name?: string;
+  email?: string;
+  message?: string;
+}
+
+const SERVICES = [
+  "Short-Form & Reels Editing",
+  "End-to-End Production & Cameraman",
+  "Commercial / Brand Film",
+  "Long-Form Commercial & Narrative",
+  "Monthly Video Retainer",
+] as const;
+
+const BUDGETS = [
+  "Flexible / Exploring",
+  "₹15,000 – ₹35,000",
+  "₹35,000 – ₹75,000",
+  "₹75,000+",
+  "$500 – $2,500+ (USD)",
+] as const;
+
+const COOLDOWN_MS = 60 * 1000; // 60 seconds
+const RATE_LIMIT_COUNT = 3;
+const RATE_LIMIT_WINDOW_MS = 60 * 60 * 1000; // 1 hour
+
+/**
+ * Sanitizes input strings by stripping HTML tags and control characters
+ */
+function sanitizeInput(str: string): string {
+  return str
+    .replace(/<[^>]*>?/gm, "")
+    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, "")
+    .trim();
+}
+
+/**
+ * Validates standard email address format
+ */
+function isValidEmail(email: string): boolean {
+  const re = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+$/;
+  return re.test(email);
+}
+
 export function Contact() {
-  const [submitted, setSubmitted] = useState(false);
+  const [formData, setFormData] = useState<FormDataState>({
+    name: "",
+    email: "",
+    service: SERVICES[0],
+    budget: BUDGETS[0],
+    message: "",
+  });
+
+  const [botcheck, setBotcheck] = useState(false);
+  const [status, setStatus] = useState<FormStatus>("idle");
+  const [errors, setErrors] = useState<FormErrors>({});
+  const [generalError, setGeneralError] = useState<string | null>(null);
+  const [submittedFirstName, setSubmittedFirstName] = useState<string>("there");
+
+  // Record when the form was mounted for minimum fill time spam check (3 seconds)
+  const formRenderTimeRef = useRef<number>(Date.now());
+
+  // Toast notification state
   const [toastMessage, setToastMessage] = useState("");
   const [toastVisible, setToastVisible] = useState(false);
   const [copiedType, setCopiedType] = useState<string | null>(null);
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    projectType: "reels",
-    budget: "flexible",
-    message: "",
-  });
+  useEffect(() => {
+    formRenderTimeRef.current = Date.now();
+  }, []);
 
   const showToast = (msg: string, type: string) => {
     setToastMessage(msg);
@@ -51,7 +120,6 @@ export function Contact() {
       await navigator.clipboard.writeText(text);
       showToast(`${label} copied to clipboard!`, type);
     } catch {
-      // Fallback
       const textArea = document.createElement("textarea");
       textArea.value = text;
       document.body.appendChild(textArea);
@@ -62,11 +130,218 @@ export function Contact() {
     }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleInputChange = (
+    field: keyof FormDataState,
+    value: string
+  ) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    // Clear field-specific error as user types
+    if (errors[field as keyof FormErrors]) {
+      setErrors((prev) => ({ ...prev, [field]: undefined }));
+    }
+    if (generalError) {
+      setGeneralError(null);
+    }
+  };
+
+  const validateForm = (): boolean => {
+    const nextErrors: FormErrors = {};
+    const trimmedName = formData.name.trim();
+    const trimmedEmail = formData.email.trim();
+    const trimmedMessage = formData.message.trim();
+
+    if (!trimmedName) {
+      nextErrors.name = "Your name is required.";
+    } else if (trimmedName.length < 2) {
+      nextErrors.name = "Name must be at least 2 characters.";
+    } else if (trimmedName.length > 80) {
+      nextErrors.name = "Name must be less than 80 characters.";
+    }
+
+    if (!trimmedEmail) {
+      nextErrors.email = "Your email is required.";
+    } else if (!isValidEmail(trimmedEmail)) {
+      nextErrors.email = "Please enter a valid email address.";
+    }
+
+    if (!trimmedMessage) {
+      nextErrors.message = "Project vision and details are required.";
+    } else if (trimmedMessage.length < 10) {
+      nextErrors.message = "Please provide at least 10 characters detailing your vision.";
+    } else if (trimmedMessage.length > 2000) {
+      nextErrors.message = "Message must be under 2000 characters.";
+    }
+
+    setErrors(nextErrors);
+    return Object.keys(nextErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // TODO: In Phase 2, connect this to Formspree, Resend, or EmailJS
-    console.log("Contact form submitted:", formData);
-    setSubmitted(true);
+
+    // Prevent double submissions while loading
+    if (status === "loading") return;
+
+    setGeneralError(null);
+
+    // 1. Client-side input validation
+    if (!validateForm()) {
+      return;
+    }
+
+    const sanitizedName = sanitizeInput(formData.name);
+    const sanitizedEmail = sanitizeInput(formData.email);
+    const sanitizedMessage = sanitizeInput(formData.message);
+
+    // 2. Minimum fill time check: if submitted in under 3s, silently simulate success
+    const elapsedMs = Date.now() - formRenderTimeRef.current;
+    if (elapsedMs < 3000) {
+      const firstName = sanitizedName.split(" ")[0] || "there";
+      setSubmittedFirstName(firstName);
+      setStatus("success");
+      return;
+    }
+
+    // 3. Cooldown & Hourly limit check via localStorage
+    try {
+      const lastSentStr = localStorage.getItem("portfolio_form_last_sent");
+      if (lastSentStr) {
+        const lastSent = parseInt(lastSentStr, 10);
+        if (Date.now() - lastSent < COOLDOWN_MS) {
+          setGeneralError("Please wait a moment before sending another inquiry.");
+          return;
+        }
+      }
+
+      const historyStr = localStorage.getItem("portfolio_form_history");
+      const history: number[] = historyStr ? JSON.parse(historyStr) : [];
+      const recentHistory = history.filter(
+        (ts) => Date.now() - ts < RATE_LIMIT_WINDOW_MS
+      );
+      if (recentHistory.length >= RATE_LIMIT_COUNT) {
+        setGeneralError(
+          `Submission limit reached for this hour. Please contact me directly at ${SOCIALS.email.address}`
+        );
+        return;
+      }
+    } catch {
+      // Storage access blocked or restricted (e.g. private browsing) — proceed
+    }
+
+    // 4. Check for public access key
+    const accessKey = process.env.NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY;
+    if (!accessKey) {
+      console.warn(
+        "Web3Forms access key is missing. Please set NEXT_PUBLIC_WEB3FORMS_ACCESS_KEY in .env.local or Vercel environment variables."
+      );
+      setGeneralError(
+        `Contact form is currently in setup mode. Please email me directly at ${SOCIALS.email.address}`
+      );
+      setStatus("error");
+      return;
+    }
+
+    // 5. Submit to Web3Forms directly from the browser
+    setStatus("loading");
+
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
+
+    try {
+      const payload = {
+        access_key: accessKey,
+        subject: `New Project Inquiry from ${sanitizedName} (${formData.service})`,
+        from_name: "Portfolio Contact Form",
+        name: sanitizedName,
+        email: sanitizedEmail,
+        service: formData.service,
+        budget: formData.budget,
+        message: sanitizedMessage,
+        botcheck: botcheck ? "true" : "",
+      };
+
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify(payload),
+        signal: controller.signal,
+      });
+
+      clearTimeout(timeoutId);
+
+      const data = await response.json().catch(() => null);
+
+      if (response.ok && data && data.success === true) {
+        const firstName = sanitizedName.split(" ")[0] || "there";
+        setSubmittedFirstName(firstName);
+        setStatus("success");
+        safeTrack("contact_form_success", { service: formData.service });
+
+        // Update localStorage cooldowns
+        try {
+          const now = Date.now();
+          localStorage.setItem("portfolio_form_last_sent", now.toString());
+          const historyStr = localStorage.getItem("portfolio_form_history");
+          const history: number[] = historyStr ? JSON.parse(historyStr) : [];
+          const recentHistory = history.filter(
+            (ts) => now - ts < RATE_LIMIT_WINDOW_MS
+          );
+          recentHistory.push(now);
+          localStorage.setItem(
+            "portfolio_form_history",
+            JSON.stringify(recentHistory)
+          );
+        } catch {
+          // Ignore storage errors
+        }
+      } else {
+        console.error(
+          "Web3Forms submission failed:",
+          data?.message || "Unknown error"
+        );
+        setStatus("error");
+        setGeneralError(
+          `Something went wrong. Please try again, or email me directly at ${SOCIALS.email.address}`
+        );
+      }
+    } catch (err: unknown) {
+      clearTimeout(timeoutId);
+      const isAbort =
+        err instanceof Error && err.name === "AbortError";
+      if (isAbort) {
+        console.error("Web3Forms request timed out after 10s");
+        setGeneralError(
+          `The request timed out. Please try again, or email me directly at ${SOCIALS.email.address}`
+        );
+      } else {
+        console.error(
+          "Web3Forms network error:",
+          err instanceof Error ? err.message : err
+        );
+        setGeneralError(
+          `Something went wrong. Please try again, or email me directly at ${SOCIALS.email.address}`
+        );
+      }
+      setStatus("error");
+    }
+  };
+
+  const handleResetForm = () => {
+    setFormData({
+      name: "",
+      email: "",
+      service: SERVICES[0],
+      budget: BUDGETS[0],
+      message: "",
+    });
+    setBotcheck(false);
+    setErrors({});
+    setGeneralError(null);
+    setStatus("idle");
+    formRenderTimeRef.current = Date.now();
   };
 
   return (
@@ -297,131 +572,290 @@ export function Contact() {
           </div>
         </div>
 
-        {/* Right Column: Project Inquiry Form & Visible Email Fallback */}
+        {/* Right Column: Project Inquiry Form / Confirmation Panel */}
         <div className="lg:col-span-7 space-y-4">
-          <div className="glass-card rounded-3xl p-6 sm:p-8">
-            <h3 className="text-xl font-bold text-white tracking-tight mb-2">
-              Send a Project Brief
-            </h3>
-            <p className="text-xs sm:text-sm text-zinc-400 mb-6">
-              Share details about your upcoming video, timeline, and vision. I will respond with a tailored proposal.
-            </p>
+          <div className="glass-card rounded-3xl p-6 sm:p-8 relative">
+            {/* Live announcer for accessibility status updates */}
+            <div className="sr-only" aria-live="polite">
+              {status === "loading"
+                ? "Sending your inquiry..."
+                : status === "success"
+                ? "Your inquiry was sent successfully."
+                : generalError || ""}
+            </div>
 
-            {submitted ? (
-              <div className="p-8 rounded-2xl bg-accent/10 border border-accent/30 text-center space-y-3">
-                <div className="w-12 h-12 rounded-full bg-accent/20 text-accent flex items-center justify-center mx-auto">
-                  <CheckCircle2 className="w-6 h-6" />
+            {status === "success" ? (
+              <div className="p-8 sm:p-12 rounded-2xl bg-accent/[0.07] border border-accent/30 text-center space-y-4 shadow-[0_0_36px_rgba(34,211,238,0.15)]">
+                <div className="w-14 h-14 rounded-full bg-accent/20 text-accent flex items-center justify-center mx-auto shadow-[0_0_24px_rgba(34,211,238,0.35)]">
+                  <CheckCircle2 className="w-8 h-8 text-accent" />
                 </div>
-                <h4 className="text-lg font-bold text-white">Inquiry Received!</h4>
-                <p className="text-xs text-zinc-300 max-w-sm mx-auto">
-                  Thank you! I will review your requirements and reach out via email shortly.
+                <h4 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
+                  Thank you, {submittedFirstName}!
+                </h4>
+                <p className="text-sm text-zinc-300 max-w-md mx-auto leading-relaxed">
+                  Your brief is on its way. I will review your requirements and reply within 2–4 hours.
                 </p>
-                <button
-                  onClick={() => setSubmitted(false)}
-                  className="mt-4 text-xs font-semibold text-accent hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded px-2 py-1"
-                >
-                  Send another message
-                </button>
+                <div className="pt-3">
+                  <button
+                    type="button"
+                    onClick={handleResetForm}
+                    className="inline-flex items-center gap-2 px-6 py-2.5 rounded-full bg-white/[0.06] hover:bg-white/[0.12] border border-white/15 text-xs font-semibold text-accent hover:text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                  >
+                    <span>Send another inquiry</span>
+                  </button>
+                </div>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">
-                      Your Name *
-                    </label>
-                    <input
-                      type="text"
-                      required
-                      placeholder="e.g. Rahul Sharma"
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-accent transition-colors focus-visible:ring-2 focus-visible:ring-accent"
-                    />
-                  </div>
+              <div>
+                <h3 className="text-xl font-bold text-white tracking-tight mb-2">
+                  Send a Project Brief
+                </h3>
+                <p className="text-xs sm:text-sm text-zinc-400 mb-6">
+                  Share details about your upcoming video, timeline, and vision. I will respond with a tailored proposal.
+                </p>
 
-                  <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">
-                      Your Email *
-                    </label>
-                    <input
-                      type="email"
-                      required
-                      placeholder="e.g. rahul@brand.com"
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-accent transition-colors focus-visible:ring-2 focus-visible:ring-accent"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">
-                      Service Needed
-                    </label>
-                    <select
-                      value={formData.projectType}
-                      onChange={(e) => setFormData({ ...formData, projectType: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-sm text-white focus:outline-none focus:border-accent transition-colors focus-visible:ring-2 focus-visible:ring-accent"
-                    >
-                      <option value="reels" className="bg-[#020308]">Short-Form & Reels Editing</option>
-                      <option value="production" className="bg-[#020308]">End-to-End Production & Cameraman</option>
-                      <option value="commercial" className="bg-[#020308]">Commercial / Brand Film</option>
-                      <option value="longform" className="bg-[#020308]">Long-Form Commercial & Narrative</option>
-                      <option value="retainer" className="bg-[#020308]">Monthly Video Retainer</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">
-                      Estimated Budget
-                    </label>
-                    <select
-                      value={formData.budget}
-                      onChange={(e) => setFormData({ ...formData, budget: e.target.value })}
-                      className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-sm text-white focus:outline-none focus:border-accent transition-colors focus-visible:ring-2 focus-visible:ring-accent"
-                    >
-                      <option value="flexible" className="bg-[#020308]">Flexible / Exploring</option>
-                      <option value="starter" className="bg-[#020308]">₹15,000 – ₹35,000</option>
-                      <option value="growth" className="bg-[#020308]">₹35,000 – ₹75,000</option>
-                      <option value="commercial" className="bg-[#020308]">₹75,000+</option>
-                      <option value="international" className="bg-[#020308]">$500 – $2,500+ (USD)</option>
-                    </select>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5">
-                    Project Vision & Details
-                  </label>
-                  <textarea
-                    rows={4}
-                    required
-                    placeholder="Tell me about your video vision, target audience, reference links, and timeline..."
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-accent transition-colors resize-none focus-visible:ring-2 focus-visible:ring-accent"
-                  />
-                </div>
-
-                <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
-                  <button
-                    type="submit"
-                    className="btn-primary-pill w-full sm:w-auto px-8 py-3.5 rounded-full font-medium text-xs uppercase tracking-wider shadow-sm flex items-center justify-center gap-2 hover:scale-[1.01] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                {/* Error Banner if submission failed or rate limit hit */}
+                {generalError && (
+                  <div
+                    role="alert"
+                    className="mb-5 p-4 rounded-xl bg-rose-500/10 border border-rose-500/30 text-rose-200 text-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3"
                   >
-                    <Send className="w-4 h-4 text-[#020308]" />
-                    <span>Send Project Inquiry</span>
-                  </button>
+                    <div className="flex items-start sm:items-center gap-2.5">
+                      <AlertCircle className="w-4 h-4 text-rose-400 shrink-0 mt-0.5 sm:mt-0" />
+                      <span>
+                        Something went wrong. Please try again, or email me directly at{" "}
+                        <a
+                          href={SOCIALS.email.mailto}
+                          className="font-semibold text-white underline decoration-accent/60 hover:text-accent underline-offset-2"
+                        >
+                          {SOCIALS.email.address}
+                        </a>
+                      </span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() =>
+                        copyToClipboard(
+                          SOCIALS.email.address,
+                          "Email address",
+                          "error-email"
+                        )
+                      }
+                      className="px-2.5 py-1 rounded-lg bg-white/10 hover:bg-white/20 border border-white/10 text-white font-medium text-[11px] shrink-0 flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                    >
+                      {copiedType === "error-email" ? (
+                        <Check className="w-3.5 h-3.5 text-accent" />
+                      ) : (
+                        <Copy className="w-3.5 h-3.5" />
+                      )}
+                      <span>Copy email</span>
+                    </button>
+                  </div>
+                )}
 
-                  <span className="text-[11px] text-zinc-500 text-center sm:text-right">
-                    Response typically in 2–4 hours
-                  </span>
-                </div>
-              </form>
+                <form onSubmit={handleSubmit} noValidate className="space-y-4">
+                  {/* Honeypot field for bot spam protection */}
+                  <input
+                    type="checkbox"
+                    name="botcheck"
+                    id="contact-botcheck"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    aria-hidden="true"
+                    className="hidden"
+                    style={{ display: "none" }}
+                    checked={botcheck}
+                    onChange={(e) => setBotcheck(e.target.checked)}
+                  />
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* Name Field */}
+                    <div>
+                      <label
+                        htmlFor="contact-name"
+                        className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5"
+                      >
+                        Your Name *
+                      </label>
+                      <input
+                        id="contact-name"
+                        name="name"
+                        type="text"
+                        autoComplete="name"
+                        placeholder="e.g. Rahul Sharma"
+                        value={formData.name}
+                        onChange={(e) => handleInputChange("name", e.target.value)}
+                        aria-invalid={Boolean(errors.name)}
+                        aria-describedby={errors.name ? "name-error" : undefined}
+                        disabled={status === "loading"}
+                        className={`w-full px-4 py-3 rounded-xl bg-white/[0.04] border text-sm text-white placeholder-zinc-500 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50 ${
+                          errors.name
+                            ? "border-rose-500/70 focus:border-rose-500"
+                            : "border-white/10 focus:border-accent"
+                        }`}
+                      />
+                      {errors.name && (
+                        <p
+                          id="name-error"
+                          className="text-[11px] text-rose-400 mt-1.5 flex items-center gap-1"
+                        >
+                          <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                          <span>{errors.name}</span>
+                        </p>
+                      )}
+                    </div>
+
+                    {/* Email Field */}
+                    <div>
+                      <label
+                        htmlFor="contact-email"
+                        className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5"
+                      >
+                        Your Email *
+                      </label>
+                      <input
+                        id="contact-email"
+                        name="email"
+                        type="email"
+                        autoComplete="email"
+                        placeholder="e.g. rahul@brand.com"
+                        value={formData.email}
+                        onChange={(e) => handleInputChange("email", e.target.value)}
+                        aria-invalid={Boolean(errors.email)}
+                        aria-describedby={errors.email ? "email-error" : undefined}
+                        disabled={status === "loading"}
+                        className={`w-full px-4 py-3 rounded-xl bg-white/[0.04] border text-sm text-white placeholder-zinc-500 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50 ${
+                          errors.email
+                            ? "border-rose-500/70 focus:border-rose-500"
+                            : "border-white/10 focus:border-accent"
+                        }`}
+                      />
+                      {errors.email && (
+                        <p
+                          id="email-error"
+                          className="text-[11px] text-rose-400 mt-1.5 flex items-center gap-1"
+                        >
+                          <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                          <span>{errors.email}</span>
+                        </p>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* Service Needed Dropdown */}
+                    <div>
+                      <label
+                        htmlFor="contact-service"
+                        className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5"
+                      >
+                        Service Needed
+                      </label>
+                      <select
+                        id="contact-service"
+                        name="service"
+                        value={formData.service}
+                        onChange={(e) => handleInputChange("service", e.target.value)}
+                        disabled={status === "loading"}
+                        className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-sm text-white focus:outline-none focus:border-accent transition-colors focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50"
+                      >
+                        {SERVICES.map((srv) => (
+                          <option key={srv} value={srv} className="bg-[#020308] text-white">
+                            {srv}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Estimated Budget Dropdown */}
+                    <div>
+                      <label
+                        htmlFor="contact-budget"
+                        className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5"
+                      >
+                        Estimated Budget
+                      </label>
+                      <select
+                        id="contact-budget"
+                        name="budget"
+                        value={formData.budget}
+                        onChange={(e) => handleInputChange("budget", e.target.value)}
+                        disabled={status === "loading"}
+                        className="w-full px-4 py-3 rounded-xl bg-white/[0.04] border border-white/10 text-sm text-white focus:outline-none focus:border-accent transition-colors focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50"
+                      >
+                        {BUDGETS.map((bgt) => (
+                          <option key={bgt} value={bgt} className="bg-[#020308] text-white">
+                            {bgt}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Project Vision & Details */}
+                  <div>
+                    <label
+                      htmlFor="contact-message"
+                      className="block text-xs font-semibold uppercase tracking-wider text-zinc-400 mb-1.5"
+                    >
+                      Project Vision & Details *
+                    </label>
+                    <textarea
+                      id="contact-message"
+                      name="message"
+                      rows={4}
+                      placeholder="Tell me about your video vision, target audience, reference links, and timeline..."
+                      value={formData.message}
+                      onChange={(e) => handleInputChange("message", e.target.value)}
+                      aria-invalid={Boolean(errors.message)}
+                      aria-describedby={errors.message ? "message-error" : undefined}
+                      disabled={status === "loading"}
+                      className={`w-full px-4 py-3 rounded-xl bg-white/[0.04] border text-sm text-white placeholder-zinc-500 transition-colors resize-none focus:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-50 ${
+                        errors.message
+                          ? "border-rose-500/70 focus:border-rose-500"
+                          : "border-white/10 focus:border-accent"
+                      }`}
+                    />
+                    {errors.message && (
+                      <p
+                        id="message-error"
+                        className="text-[11px] text-rose-400 mt-1.5 flex items-center gap-1"
+                      >
+                        <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                        <span>{errors.message}</span>
+                      </p>
+                    )}
+                  </div>
+
+                  {/* Submission Controls */}
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+                    <button
+                      type="submit"
+                      disabled={status === "loading"}
+                      className="btn-primary-pill w-full sm:w-auto px-8 py-3.5 rounded-full font-medium text-xs uppercase tracking-wider shadow-sm flex items-center justify-center gap-2 hover:scale-[1.01] transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent disabled:opacity-60 disabled:cursor-not-allowed cursor-pointer"
+                    >
+                      {status === "loading" ? (
+                        <>
+                          <Loader2 className="w-4 h-4 text-[#020308] animate-spin" />
+                          <span>Sending...</span>
+                        </>
+                      ) : (
+                        <>
+                          <Send className="w-4 h-4 text-[#020308]" />
+                          <span>Send Project Inquiry</span>
+                        </>
+                      )}
+                    </button>
+
+                    <span className="text-[11px] text-zinc-500 text-center sm:text-right">
+                      Response typically in 2–4 hours
+                    </span>
+                  </div>
+                </form>
+              </div>
             )}
 
-            {/* Visible Fallback Contact next to/below form as instructed */}
+            {/* Visible Fallback Contact beneath form */}
             <div className="mt-6 pt-5 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-zinc-400 bg-white/[0.02] p-4 rounded-2xl">
               <div className="flex items-center gap-2">
                 <Mail className="w-4 h-4 text-accent shrink-0" />
@@ -436,7 +870,13 @@ export function Contact() {
                 </a>
                 <button
                   type="button"
-                  onClick={() => copyToClipboard(SOCIALS.email.address, "Email address", "fallback-email")}
+                  onClick={() =>
+                    copyToClipboard(
+                      SOCIALS.email.address,
+                      "Email address",
+                      "fallback-email"
+                    )
+                  }
                   title="Copy email address"
                   aria-label="Copy email address"
                   className="p-1.5 rounded-lg bg-[#050B2E] border border-white/10 hover:border-accent hover:text-accent transition-all text-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
