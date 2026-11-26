@@ -11,5 +11,18 @@
     "approved": true,
     "dateAdded": "2026-11-26",
     "notes": "Approved single exception: client work from local editing assets"
+  },
+  {
+    "id": "talking-head-videos-nishant-reel",
+    "title": "Nishant Reel",
+    "originalPath": "E:\\Dhairya\\Editing Assets\\Fonts\\Fonts\\Client\\Sample 5\\nishant reel.mp4",
+    "fileName": "nishant reel.mp4",
+    "destinationVideo": "/assets/talking-head-videos/nishant-reel.mp4",
+    "destinationPoster": "/assets/talking-head-videos/nishant-reel-poster.jpg",
+    "category": "Talking Head & Reels",
+    "displayCategory": "Talking Head & Founder Reels",
+    "approved": true,
+    "dateAdded": "2026-11-26",
+    "notes": "Approved exception: client work from local editing assets"
   }
 ]

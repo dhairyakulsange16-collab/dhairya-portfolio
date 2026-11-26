@@ -685,6 +685,31 @@ export const PROJECTS: Project[] = [
     ]
   },
   {
+    "id": "talking-head-videos-nishant-reel",
+    "title": "Nishant Reel",
+    "category": "Talking Head & Reels",
+    "folder": "Talking Head Videos",
+    "folderSlug": "talking-head-videos",
+    "aspect": "9:16",
+    "orientation": "9:16 Vertical",
+    "videoPath": "/assets/talking-head-videos/nishant-reel.mp4",
+    "posterPath": "/assets/talking-head-videos/nishant-reel-poster.jpg",
+    "duration": "0:12",
+    "durationSec": 12.0,
+    "resolution": "1080x1920",
+    "sizeFormatted": "7.7 MB",
+    "driveFileId": "manual-local-nishant-reel",
+    "driveFileName": "nishant reel.mp4",
+    "tags": [
+      "Talking Head",
+      "Reel",
+      "Interview",
+      "Vertical"
+    ],
+    "source": "manual-local",
+    "dateAdded": "2026-11-26"
+  },
+  {
     "id": "talking-head-videos-26-bn-event",
     "title": "26 BN Event",
     "category": "Talking Head & Reels",
