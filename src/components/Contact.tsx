@@ -425,7 +425,7 @@ export function Contact() {
                       openDiscord();
                       safeTrack("contact_click", { channel: "discord" });
                     }}
-                    aria-label="Open Discord (User ID: 1108795562758770828)"
+                    aria-label={`Open Discord (User ID: ${SOCIALS.discord.userId})`}
                     className="flex items-center gap-3.5 flex-1 min-w-0 text-left cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent rounded-lg"
                   >
                     <div className="w-10 h-10 rounded-xl bg-primary/10 border border-accent/20 flex items-center justify-center text-accent group-hover:scale-105 transition-transform shrink-0">

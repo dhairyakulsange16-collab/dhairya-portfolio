@@ -32,7 +32,7 @@ export function Lightbox({ project, projects, onClose, onNavigate }: LightboxPro
   const containerRef = useRef<HTMLDivElement>(null);
 
   const [isPlaying, setIsPlaying] = useState(true);
-  const [isMuted, setIsMuted] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
   const [progress, setProgress] = useState(0);
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrentTime] = useState(0);
@@ -218,6 +218,7 @@ export function Lightbox({ project, projects, onClose, onNavigate }: LightboxPro
           {isVideo ? (
             <>
               <video
+                muted={isMuted}
                 ref={videoRef}
                 src={project.videoPath}
                 poster={project.posterPath}

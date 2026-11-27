@@ -35,6 +35,12 @@ export const CATEGORY_ORDER = [
   "AI UGC Videos",
 ] as const;
 
+export function categoryLabel(category: string) {
+  if (category === "Commercial Shoots") return "Commercial Brand Campaigns";
+  if (category === "AI UGC Videos") return "AI UGC";
+  return category;
+}
+
 export const CATEGORIES = [
   "All",
   ...CATEGORY_ORDER,

@@ -1,19 +1,15 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import "./globals.css";
-import { SOCIALS } from "@/data/socials";
+import "./studio.css";
+
 import { GlassBackdrop } from "@/components/GlassBackdrop";
+import { SOCIALS } from "@/data/socials";
+
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 
-const inter = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-  display: "swap",
-});
-
 export const metadata: Metadata = {
-  metadataBase: new URL("https://dhairya-portfolio.vercel.app"),
+  metadataBase: new URL("https://dhairya-portfolio-tan.vercel.app"),
   title: "Dhairya | Video Editor, Cameraman & Content Creator",
   description:
     "Portfolio of Dhairya — Video Editor & Cameraman based in Nagpur, India. Crafting high-retention short-form reels, commercial films, and end-to-end video production for 40+ brands.",
@@ -27,10 +23,10 @@ export const metadata: Metadata = {
     "Short-Form Video",
     "Commercial Video Editing",
     "Dhairya Portfolio",
-    "editby.dhiru",
-    "editbydhiru",
+    SOCIALS.instagram.handle.slice(1),
+    SOCIALS.x.handle.slice(1),
   ],
-  authors: [{ name: "Dhairya", url: "https://dhairya-portfolio.vercel.app" }],
+  authors: [{ name: "Dhairya", url: "https://dhairya-portfolio-tan.vercel.app" }],
   creator: "Dhairya",
   icons: {
     icon: "/icon.png",
@@ -40,7 +36,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "https://dhairya-portfolio.vercel.app",
+    url: "https://dhairya-portfolio-tan.vercel.app",
     title: "Dhairya | Video Editor, Cameraman & Content Creator",
     description:
       "Crafting high-retention short-form reels, brand commercials, and end-to-end video production for 40+ brands worldwide.",
@@ -58,8 +54,8 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Dhairya | Video Editor, Cameraman & Content Creator",
     description: "High-retention reels, brand commercials, and end-to-end video production.",
-    creator: "@editbydhiru",
-    site: "@editbydhiru",
+    creator: SOCIALS.x.handle,
+    site: SOCIALS.x.handle,
     images: ["/assets/brand/og-image.png"],
   },
   robots: {
@@ -80,8 +76,8 @@ export default function RootLayout({
     jobTitle: "Video Editor & Cameraman",
     description:
       "Professional video editor and cameraman with ~2 years of experience partnering with 40+ brands in Nagpur, India and globally.",
-    url: "https://dhairya-portfolio.vercel.app",
-    image: "https://dhairya-portfolio.vercel.app/assets/brand/og-image.png",
+    url: "https://dhairya-portfolio-tan.vercel.app",
+    image: "https://dhairya-portfolio-tan.vercel.app/assets/brand/og-image.png",
     email: `mailto:${SOCIALS.email.address}`,
     sameAs: [
       SOCIALS.instagram.url,
@@ -108,7 +104,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className={`dark bg-[#020308] ${inter.variable}`}>
+    <html lang="en" className="dark">
       <head>
         <script
           type="application/ld+json"
