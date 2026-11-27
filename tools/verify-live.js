@@ -17,12 +17,12 @@ async function pollDeployment() {
   for (let i = 0; i < 30; i++) {
     try {
       const { status, text } = await fetchUrl(LIVE_URL);
-      const hasNewBackdrop = text.includes('stage-desktop.webp') || text.includes('backdrop-anim-pillar') || text.includes('backdrop-stage') || text.includes('data-backdrop-mode');
-      const hasOldBackdrop = text.includes('backdrop-band-left');
+      const hasAuroraBackdrop = text.includes('anim-aurora-1') || text.includes('data-direction="aurora"');
+      const hasOldFigma = text.includes('backdrop-anim-pillar') || text.includes('stage-desktop.webp');
 
-      console.log(`[Attempt ${i + 1}] Status: ${status}, hasNewBackdrop: ${hasNewBackdrop}, hasOldBackdrop: ${hasOldBackdrop}`);
-      if (status === 200 && hasNewBackdrop && !hasOldBackdrop) {
-        console.log('\n>>> LIVE SITE IS FULLY DEPLOYED WITH NEW FIGMA BACKDROP! <<<');
+      console.log(`[Attempt ${i + 1}] Status: ${status}, hasAuroraBackdrop: ${hasAuroraBackdrop}, hasOldFigma: ${hasOldFigma}`);
+      if (status === 200 && hasAuroraBackdrop && !hasOldFigma) {
+        console.log('\n>>> LIVE SITE IS FULLY DEPLOYED WITH DIRECTION 1 (CINEMATIC AURORA)! <<<');
         return text;
       }
     } catch (e) {
