@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
-import "./studio.css";
 
 import { GlassBackdrop } from "@/components/GlassBackdrop";
 import { SOCIALS } from "@/data/socials";
@@ -13,6 +13,12 @@ import {
 
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -102,14 +108,15 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className={`dark bg-[#020308] ${inter.variable}`}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-screen bg-transparent text-zinc-100 antialiased selection:bg-accent selection:text-black relative">
+      <body className="bg-[#020308] text-zinc-100 min-h-screen font-sans antialiased overflow-x-hidden selection:bg-accent selection:text-black">
+        {/* Animated Glass Backdrop: 2 roving color slabs, horizon arc, film grain */}
         <GlassBackdrop />
         {children}
         <Analytics />

@@ -1,6 +1,31 @@
 # Dhairya | Video Editor, Cameraman & Content Creator Portfolio
 
-A film and video editing portfolio for Dhairya Kulsange, a Nagpur-based editor and cameraman. The navy and cyan studio interface uses orange for featured films and primary actions. The homepage, film archive and contact form use Next.js 14, TypeScript and Tailwind CSS.
+A modern, cinematic portfolio website built for **Dhairya** — Video Editor & Cameraman based in Nagpur, India. Showcasing 45 authentic commercial productions, viral short-form reels, brand campaigns, and on-location cinematographic films.
+
+---
+
+## Tech Stack
+
+- **Framework:** [Next.js 14](https://nextjs.org/) (App Router)
+- **Language:** [TypeScript](https://www.typescriptlang.org/)
+- **Styling:** [Tailwind CSS](https://tailwindcss.com/)
+- **Animations:** [Framer Motion](https://www.framer.com/motion/) & Lucide React Icons
+- **Design Tokens:** Deep Navy (`#030712`, `#050B2E`), Electric Blue (`#1E5BFF`), Neon Cyan (`#22D3EE`)
+- **Deployment Target:** [Vercel](https://vercel.com/)
+
+---
+
+## Features
+
+- **Authentic Footage:** Sourced 100% from Google Drive client archives across 7 production categories.
+- **Dynamic Tagline Hero:** Animated PFP GIF brand anchor with soft cyan glow ring, live typewriter tagline, and dual CTAs.
+- **Adaptive Layouts:** Vertical 9:16 reels in snap-scroll horizontal carousels; horizontal 16:9 films in responsive multi-column grids.
+- **Smart Single-Video Playback:** Autoplay on hover with neon cyan glow, coordinated so only one video plays at a time.
+- **Fullscreen Lightbox Player:** Audio controls, scrub bar, responsive controls, and keyboard navigation (`Esc`, `ArrowLeft`, `ArrowRight`, `Space`, `M`).
+- **Interactive Socials & Discord Deep-Linking:** One-click launch for desktop/mobile Discord with automatic 1.5s web fallback, plus copy-to-clipboard toasts for Discord ID and Email.
+- **Performance & SEO:** Full Open Graph images, JSON-LD `Person` schema, `sitemap.xml`, and `robots.txt`.
+
+---
 
 ## Catalog
 

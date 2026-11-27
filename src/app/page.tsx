@@ -11,39 +11,44 @@ import { About } from "@/components/About";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { Lightbox } from "@/components/Lightbox";
-import { PROJECTS, Project, CategoryType } from "@/data/projects";
+import { PROJECTS, Project } from "@/data/projects";
 
 export default function Home() {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  const [category, setCategory] = useState<CategoryType>("All");
-
   return (
     <main className="relative z-10 min-h-screen bg-transparent text-zinc-100 flex flex-col selection:bg-accent selection:text-black">
-      <Navbar onCategory={setCategory} />
+      {/* 0. Sticky Global Navbar with Scroll Progress Bar & Section Tracker */}
+      <Navbar />
 
-      <Hero onSelect={setSelectedProject} />
+      {/* 1. Hero: Animated PFP, Name, Dynamic Taglines, Dual CTAs, Moving Diagonal Lights */}
+      <Hero />
 
+      {/* 2. Work sections (one per Drive subfolder: vertical snap carousel, horizontal grids) */}
       <WorkSections
         projects={PROJECTS}
-        filterCategory={category}
-        setFilterCategory={setCategory}
-        playerOpen={Boolean(selectedProject)}
         onSelectProject={(p) => setSelectedProject(p)}
       />
 
+      {/* 3. Services: 5 glass cards (End-to-end, Reels, Cameraman, Social posting, SEO) */}
       <Services />
 
+      {/* 5. Stats strip: Animated count-up (2+ yrs, 40+ brands, auto-calculated project count) */}
       <StatsStrip />
 
+      {/* 6. Brands I've worked with: Infinite marquee strip */}
       <BrandStrip />
 
+      {/* 7. About: PFP avatar, short bio, tools, Let's work together CTA */}
       <About />
 
+      {/* 8. Contact: Email, Discord, Instagram, Threads, X, and Brief form */}
       <Contact />
 
+      {/* 9. Minimal Footer with back-to-top */}
       <Footer />
 
+      {/* Fullscreen Video Lightbox with keyboard navigation & next/previous */}
       <Lightbox
         project={selectedProject}
         projects={PROJECTS}

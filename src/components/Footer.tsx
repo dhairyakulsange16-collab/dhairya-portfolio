@@ -84,7 +84,7 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10 hover:border-accent hover:text-white hover:shadow-[0_0_12px_rgba(34,211,238,0.3)] transition-all text-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-              aria-label={`Instagram Profile (${SOCIALS.instagram.handle})`}
+              aria-label="Instagram Profile (@editby.dhiru)"
             >
               <InstagramIcon className="w-4 h-4" />
             </a>
@@ -95,7 +95,7 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10 hover:border-accent hover:text-white hover:shadow-[0_0_12px_rgba(34,211,238,0.3)] transition-all text-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-              aria-label={`Threads Profile (${SOCIALS.threads.handle})`}
+              aria-label="Threads Profile (@editby.dhiru)"
             >
               <ThreadsIcon className="w-4 h-4" />
             </a>
@@ -106,7 +106,7 @@ export function Footer() {
               target="_blank"
               rel="noopener noreferrer"
               className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10 hover:border-accent hover:text-white hover:shadow-[0_0_12px_rgba(34,211,238,0.3)] transition-all text-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
-              aria-label={`X Profile (${SOCIALS.x.handle})`}
+              aria-label="X Profile (@editbydhiru)"
             >
               <XIcon className="w-4 h-4" />
             </a>
@@ -116,7 +116,7 @@ export function Footer() {
               type="button"
               onClick={openDiscord}
               className="p-2.5 rounded-xl bg-white/[0.04] border border-white/10 hover:border-accent hover:text-white hover:shadow-[0_0_12px_rgba(34,211,238,0.3)] transition-all text-zinc-400 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer"
-              aria-label={`Discord Profile (User ID: ${SOCIALS.discord.userId})`}
+              aria-label="Discord Profile (User ID: 1108795562758770828)"
               title="Open in Discord"
             >
               <DiscordIcon className="w-4 h-4" />
