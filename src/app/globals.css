@@ -3,52 +3,46 @@
 @tailwind utilities;
 
 :root {
-  /* Dark Glass Gradient Backdrop Palette */
-  --bg-base: #020308;
-  --blue-deep: #0A2A8F;
-  --blue-electric: #1E5BFF;
-  --blue-sky: #3FA9E8;
-  --ice: #B7DDF0;
-  --teal: #3FC1B5;
-  --cyan: #5CF0FF;
-  --rim-warm: #F2C9A0;
-  --sand: #D9D2B8;
+  /* Figma BRIX Gradient Background #1 Tokens */
+  --bg-black: #000000;
+  --bg-blue: #2388FF;
+  --bg-indigo: #4A3AFF;
+  --bg-white: rgba(255, 255, 255, 1);
+  --bg-speed: 1;
+  --bg-scale: 1;
+  --scrim: 0;
 
   /* Global Glassmorphism Tokens */
   --glass-bg: rgba(255, 255, 255, 0.05);
   --glass-border: rgba(255, 255, 255, 0.12);
   --glass-blur: 18px;
 
-  /* Animation Master Speed Multiplier (1 = default, 2 = 2x faster, 0.5 = 2x slower) */
-  --bg-speed: 1;
-
-  /* Reading Scrim dynamic opacity */
-  --scrim: 0;
-
   /* Theme tokens */
-  --background: #020308;
-  --background-deep: #04060F;
+  --background: #000000;
+  --background-deep: #020308;
   --foreground: #FFFFFF;
   --primary: #1E5BFF;
   --accent: #22D3EE;
   --accent-bright: #5CF0FF;
   --muted-text: #9AA8C7;
 
-  /* Marquee Train Animation Duration (Edit speed here: higher = slower) */
+  /* Marquee Train Animation Duration */
   --marquee-duration: 35s;
   --marquee-duration-reverse: 45s;
 }
 
 html {
   scroll-behavior: smooth;
-  background-color: #020308;
+  background-color: #000000;
   color: #FFFFFF;
   color-scheme: dark;
 }
 
 body {
   overflow-x: hidden;
-  background-color: var(--bg-base);
+  background-color: #000000;
+  color: #FFFFFF;
+  position: relative;
   min-height: 100vh;
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
 }
@@ -228,80 +222,148 @@ body {
 }
 
 /* ==========================================================================
-   Dark Glass Gradient Animated Backdrop
+   Figma "Gradient Background #1" (BRIX Templates) Animated Backdrop
    ========================================================================== */
 
-/* 1. Left Band Sway Animation */
-@keyframes backdropBandLeft {
+/* 1. Whole Stage Slow Scaling (40s Alternate) */
+@keyframes backdropStageScale {
   0% {
-    transform: translate3d(0, 0, 0) rotate(-12deg) scale(1);
+    transform: scale(1) translateZ(0);
   }
   100% {
-    transform: translate3d(3vw, 2vh, 0) rotate(-9deg) scale(1.06);
+    transform: scale(1.04) translateZ(0);
   }
 }
 
-/* 2. Right Band Sway Animation */
-@keyframes backdropBandRight {
+.backdrop-anim-stage {
+  animation: backdropStageScale calc(40s / var(--bg-speed, 1)) ease-in-out infinite alternate;
+  animation-play-state: running;
+  transform-origin: center center;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* 2. White Pillar Breathing (14s Alternate) */
+@keyframes backdropPillar {
   0% {
-    transform: translate3d(0, 0, 0) rotate(14deg) scale(1);
+    opacity: 0.75;
+    transform: scaleY(1) translateZ(0);
   }
   100% {
-    transform: translate3d(-2.5vw, 1.8vh, 0) rotate(11deg) scale(1.05);
+    opacity: 1;
+    transform: scaleY(1.06) translateZ(0);
   }
 }
 
-/* 3. Glossy Sheen Traveling Strip */
-@keyframes backdropSheen {
+.backdrop-anim-pillar {
+  animation: backdropPillar calc(14s / var(--bg-speed, 1)) ease-in-out infinite alternate;
+  animation-play-state: running;
+  transform-origin: top center;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+/* 3. Blue Blob Left Drift (26s Alternate) */
+@keyframes backdropBlobBlue {
   0% {
-    transform: translate3d(0, -60%, 0);
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(35px, -25px, 0) rotate(2deg);
+  }
+  100% {
+    transform: translate3d(-20px, 45px, 0) rotate(-3deg);
+  }
+}
+
+.backdrop-anim-blob-blue {
+  animation: backdropBlobBlue calc(26s / var(--bg-speed, 1)) ease-in-out infinite alternate;
+  animation-play-state: running;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* 4. Indigo Blob Right Drift (32s Alternate) */
+@keyframes backdropBlobIndigo {
+  0% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(-40px, 30px, 0) rotate(-2.5deg);
+  }
+  100% {
+    transform: translate3d(25px, -35px, 0) rotate(3deg);
+  }
+}
+
+.backdrop-anim-blob-indigo {
+  animation: backdropBlobIndigo calc(32s / var(--bg-speed, 1)) ease-in-out infinite alternate;
+  animation-delay: calc(-14s / var(--bg-speed, 1));
+  animation-play-state: running;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+/* 5. Center Blue Glow Opacity Pulse (18s Alternate) */
+@keyframes backdropGlow {
+  0% {
+    opacity: 0.70;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.backdrop-anim-glow {
+  animation: backdropGlow calc(18s / var(--bg-speed, 1)) ease-in-out infinite alternate;
+  animation-play-state: running;
+  will-change: opacity;
+  transform: translateZ(0);
+}
+
+/* 6. Ribs Subtle Shimmer (8s Alternate) */
+@keyframes backdropRib {
+  0% {
+    opacity: 0.80;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.backdrop-anim-rib {
+  animation: backdropRib calc(8s / var(--bg-speed, 1)) ease-in-out infinite alternate;
+  animation-play-state: running;
+  will-change: opacity;
+  transform: translateZ(0);
+}
+
+/* 7. Soft Light Sweep Traveling Across Ribs (12s Infinite) */
+@keyframes backdropSweep {
+  0% {
+    transform: translate3d(-300px, 0, 0);
     opacity: 0;
   }
   15% {
-    opacity: 0.65;
-  }
-  50% {
-    opacity: 0.85;
+    opacity: 0.7;
   }
   85% {
-    opacity: 0.65;
+    opacity: 0.7;
   }
   100% {
-    transform: translate3d(0, 160%, 0);
+    transform: translate3d(1500px, 0, 0);
     opacity: 0;
   }
 }
 
-/* 4. Planetary Arc Floating Animation */
-@keyframes backdropArc {
-  0% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  100% {
-    transform: translate3d(0, -2.5vh, 0) scale(1.03);
-  }
+.backdrop-anim-sweep {
+  animation: backdropSweep calc(12s / var(--bg-speed, 1)) ease-in-out infinite;
+  animation-play-state: running;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
-/* 5. Rim Cross-Fade Alternating */
-@keyframes backdropRimWarm {
-  0%, 100% {
-    opacity: 0.95;
-  }
-  50% {
-    opacity: 0.35;
-  }
-}
-
-@keyframes backdropRimCool {
-  0%, 100% {
-    opacity: 0.35;
-  }
-  50% {
-    opacity: 0.95;
-  }
-}
-
-/* 6. Living Film Grain 8-Step Shift */
+/* 8. Film Grain 8-Step Shift (1.2s Infinite) */
 @keyframes backdropGrain {
   0% {
     transform: translate3d(0, 0, 0);
@@ -332,155 +394,39 @@ body {
   }
 }
 
-/* 7. Floating Glass Orbs */
-@keyframes backdropOrb1 {
-  0% {
-    transform: translate3d(0, 0, 0) scale(1);
-    opacity: 0.18;
-  }
-  50% {
-    opacity: 0.30;
-  }
-  100% {
-    transform: translate3d(4vw, -5vh, 0) scale(1.12);
-    opacity: 0.20;
-  }
-}
-
-@keyframes backdropOrb2 {
-  0% {
-    transform: translate3d(0, 0, 0) scale(1);
-    opacity: 0.22;
-  }
-  50% {
-    opacity: 0.15;
-  }
-  100% {
-    transform: translate3d(-5vw, 6vh, 0) scale(1.15);
-    opacity: 0.28;
-  }
-}
-
-@keyframes backdropOrb3 {
-  0% {
-    transform: translate3d(0, 0, 0) scale(1);
-    opacity: 0.16;
-  }
-  50% {
-    opacity: 0.26;
-  }
-  100% {
-    transform: translate3d(3vw, 4vh, 0) scale(1.08);
-    opacity: 0.18;
-  }
-}
-
-/* Animated Backdrop Static Classes */
-.backdrop-band-left {
-  animation: backdropBandLeft calc(32s / var(--bg-speed, 1)) ease-in-out infinite alternate;
-  animation-play-state: running;
-  will-change: transform;
-  transform: translateZ(0);
-}
-
-.backdrop-band-right {
-  animation: backdropBandRight calc(38s / var(--bg-speed, 1)) ease-in-out infinite alternate;
-  animation-delay: calc(-12s / var(--bg-speed, 1));
-  animation-play-state: running;
-  will-change: transform;
-  transform: translateZ(0);
-}
-
-.backdrop-sheen {
-  animation: backdropSheen calc(20s / var(--bg-speed, 1)) linear infinite;
-  animation-play-state: running;
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
-
-.backdrop-arc {
-  animation: backdropArc calc(30s / var(--bg-speed, 1)) ease-in-out infinite alternate;
-  animation-play-state: running;
-  will-change: transform;
-  transform: translateZ(0);
-}
-
-.backdrop-rim-warm {
-  animation: backdropRimWarm calc(18s / var(--bg-speed, 1)) ease-in-out infinite alternate;
-  animation-play-state: running;
-  will-change: opacity;
-  transform: translateZ(0);
-}
-
-.backdrop-rim-cool {
-  animation: backdropRimCool calc(18s / var(--bg-speed, 1)) ease-in-out infinite alternate;
-  animation-play-state: running;
-  will-change: opacity;
-  transform: translateZ(0);
-}
-
-.backdrop-grain {
+.backdrop-anim-grain {
   animation: backdropGrain 1.2s steps(8) infinite;
   animation-play-state: running;
   will-change: transform;
   transform: translateZ(0);
 }
 
-.backdrop-orb-1 {
-  animation: backdropOrb1 calc(22s / var(--bg-speed, 1)) ease-in-out infinite alternate;
+/* 9. Static Fallback Ambient Animation */
+@keyframes backdropFallback {
+  0% {
+    transform: scale(1) translate3d(0, 0, 0);
+    filter: brightness(1) drop-shadow(0 0 40px rgba(35, 136, 255, 0.4));
+  }
+  50% {
+    transform: scale(1.03) translate3d(15px, -10px, 0);
+    filter: brightness(1.08) drop-shadow(0 0 60px rgba(74, 58, 255, 0.55));
+  }
+  100% {
+    transform: scale(1) translate3d(-10px, 15px, 0);
+    filter: brightness(1) drop-shadow(0 0 40px rgba(35, 136, 255, 0.4));
+  }
+}
+
+.backdrop-anim-fallback {
+  animation: backdropFallback calc(25s / var(--bg-speed, 1)) ease-in-out infinite alternate;
   animation-play-state: running;
-  will-change: transform, opacity;
+  will-change: transform, filter;
   transform: translateZ(0);
 }
 
-.backdrop-orb-2 {
-  animation: backdropOrb2 calc(28s / var(--bg-speed, 1)) ease-in-out infinite alternate;
-  animation-delay: calc(-9s / var(--bg-speed, 1));
-  animation-play-state: running;
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
-
-.backdrop-orb-3 {
-  animation: backdropOrb3 calc(36s / var(--bg-speed, 1)) ease-in-out infinite alternate;
-  animation-delay: calc(-17s / var(--bg-speed, 1));
-  animation-play-state: running;
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
-
-/* Reduced Motion: gracefully slow down 3x rather than stopping */
+/* Reduced Motion: 3x slower durations rather than freezing */
 @media (prefers-reduced-motion: reduce) {
-  .backdrop-band-left {
-    animation-duration: calc(96s / var(--bg-speed, 1)) !important;
-  }
-  .backdrop-band-right {
-    animation-duration: calc(114s / var(--bg-speed, 1)) !important;
-  }
-  .backdrop-sheen {
-    animation-duration: calc(60s / var(--bg-speed, 1)) !important;
-  }
-  .backdrop-arc {
-    animation-duration: calc(90s / var(--bg-speed, 1)) !important;
-  }
-  .backdrop-rim-warm,
-  .backdrop-rim-cool {
-    animation-duration: calc(54s / var(--bg-speed, 1)) !important;
-  }
-  .backdrop-orb-1 {
-    animation-duration: calc(66s / var(--bg-speed, 1)) !important;
-  }
-  .backdrop-orb-2 {
-    animation-duration: calc(84s / var(--bg-speed, 1)) !important;
-  }
-  .backdrop-orb-3 {
-    animation-duration: calc(108s / var(--bg-speed, 1)) !important;
-  }
-}
-
-/* Mobile Screen Tuning (<768px) */
-@media (max-width: 767px) {
-  .backdrop-grain {
-    opacity: 0.10 !important;
+  :root {
+    --bg-speed: 0.33;
   }
 }

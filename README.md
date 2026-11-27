@@ -132,6 +132,12 @@ Get a free access key from [web3forms.com](https://web3forms.com/) and configure
 
 ---
 
+## Credits
+
+Background design: BRIX Templates, Gradient Backgrounds (Figma Community, free)
+
+---
+
 ## License
 
 Crafted for Dhairya. All rights reserved.

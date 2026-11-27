@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
-import { GlassBackdrop } from "@/components/GlassBackdrop";
+import { Backdrop } from "@/components/Backdrop";
 import { SOCIALS } from "@/data/socials";
 import {
   SITE_URL,
@@ -108,16 +108,16 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="en" className={`dark bg-[#020308] ${inter.variable}`}>
+    <html lang="en" className={`dark bg-black ${inter.variable}`}>
       <head>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="bg-[#020308] text-zinc-100 min-h-screen font-sans antialiased overflow-x-hidden selection:bg-accent selection:text-black">
-        {/* Animated Glass Backdrop: 2 roving color slabs, horizon arc, film grain */}
-        <GlassBackdrop />
+      <body className="bg-black text-zinc-100 min-h-screen font-sans antialiased overflow-x-hidden selection:bg-accent selection:text-black">
+        {/* Figma Gradient Background #1 Animated Backdrop */}
+        <Backdrop />
         {children}
         <Analytics />
         <SpeedInsights />
