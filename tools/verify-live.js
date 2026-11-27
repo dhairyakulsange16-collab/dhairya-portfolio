@@ -17,12 +17,12 @@ async function pollDeployment() {
   for (let i = 0; i < 30; i++) {
     try {
       const { status, text } = await fetchUrl(LIVE_URL);
-      const hasStudioCss = text.includes('studio.css') || text.includes('studio-header') || text.includes('ff8057');
-      const hasOriginalNav = text.includes('backdrop-band-left') || text.includes('BrandStrip') || text.includes('Client Roster');
+      const hasNewBackdrop = text.includes('stage-desktop.webp') || text.includes('backdrop-anim-pillar') || text.includes('backdrop-stage') || text.includes('data-backdrop-mode');
+      const hasOldBackdrop = text.includes('backdrop-band-left');
 
-      console.log(`[Attempt ${i + 1}] Status: ${status}, hasStudioCss: ${hasStudioCss}, hasOriginalNav: ${hasOriginalNav}`);
-      if (status === 200 && !hasStudioCss && hasOriginalNav) {
-        console.log('\n>>> LIVE SITE IS FULLY DEPLOYED WITH RESTORED DESIGN! <<<');
+      console.log(`[Attempt ${i + 1}] Status: ${status}, hasNewBackdrop: ${hasNewBackdrop}, hasOldBackdrop: ${hasOldBackdrop}`);
+      if (status === 200 && hasNewBackdrop && !hasOldBackdrop) {
+        console.log('\n>>> LIVE SITE IS FULLY DEPLOYED WITH NEW FIGMA BACKDROP! <<<');
         return text;
       }
     } catch (e) {

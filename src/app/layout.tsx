@@ -118,7 +118,9 @@ export default function RootLayout({
       <body className="bg-black text-zinc-100 min-h-screen font-sans antialiased overflow-x-hidden selection:bg-accent selection:text-black">
         {/* Figma Gradient Background #1 Animated Backdrop */}
         <Backdrop />
-        {children}
+        <div className="relative z-[1] min-h-screen">
+          {children}
+        </div>
         <Analytics />
         <SpeedInsights />
       </body>

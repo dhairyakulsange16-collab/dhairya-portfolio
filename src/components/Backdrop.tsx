@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 
 interface BarConfig {
   left: number;
@@ -9,6 +9,7 @@ interface BarConfig {
   mirror?: boolean;
 }
 
+// 7 Left Bars from Figma CSS
 const LEFT_BARS: BarConfig[] = [
   { left: 0, top: 473.61, stop: 71.34 },
   { left: 102.86, top: 407.16, stop: 71.34 },
@@ -19,6 +20,7 @@ const LEFT_BARS: BarConfig[] = [
   { left: 617.14, top: 607.46, stop: 61.17 },
 ];
 
+// 7 Right Bars from Figma CSS (mirrored with scaleX(-1))
 const RIGHT_BARS: BarConfig[] = [
   { left: 1337.14, top: 473.61, stop: 48.62, mirror: true },
   { left: 1234.29, top: 407.16, stop: 42.17, mirror: true },
@@ -32,14 +34,11 @@ const RIGHT_BARS: BarConfig[] = [
 const ALL_BARS: BarConfig[] = [...LEFT_BARS, ...RIGHT_BARS];
 
 export function Backdrop() {
-  const [mounted, setMounted] = useState(false);
   const [isFallback, setIsFallback] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-
-    // 1. Initial hardware/connection capabilities check
+    // 1. Initial responsive check & performance capabilities
     const mobileWidth = window.innerWidth < 768;
     setIsMobile(mobileWidth);
 
@@ -51,11 +50,11 @@ export function Backdrop() {
       navigator.hardwareConcurrency &&
       navigator.hardwareConcurrency <= 4;
 
-    let useStaticImage = mobileWidth || prefersReducedData || Boolean(lowConcurrency);
-    setIsFallback(useStaticImage);
-
-    // 2. Measure initial FPS over the first 2 seconds (if not already fallback)
-    if (!useStaticImage) {
+    // Use fallback on mobile, reduced data, or low-concurrency devices
+    if (mobileWidth || prefersReducedData || lowConcurrency) {
+      setIsFallback(true);
+    } else {
+      // Measure initial FPS over the first 2 seconds on desktop
       let frameCount = 0;
       let startTime = performance.now();
       let animId: number;
@@ -75,7 +74,7 @@ export function Backdrop() {
       animId = requestAnimationFrame(measureFps);
     }
 
-    // 3. Dynamic responsive scale calculation
+    // 2. Dynamic responsive scale calculation
     const updateScale = () => {
       const vw = window.innerWidth;
       const vh = window.innerHeight;
@@ -98,7 +97,7 @@ export function Backdrop() {
     window.addEventListener("resize", handleResize, { passive: true });
     updateScale();
 
-    // 4. Reading Scrim scroll listener
+    // 3. Reading Scrim passive scroll listener
     let scrollTicking = false;
     const handleScroll = () => {
       if (!scrollTicking) {
@@ -125,7 +124,7 @@ export function Backdrop() {
 
   return (
     <div
-      className="fixed inset-0 -z-10 overflow-hidden pointer-events-none select-none isolation-isolate"
+      className="fixed inset-0 z-0 overflow-hidden pointer-events-none select-none isolation-isolate"
       style={{
         contain: "strict",
         backgroundImage: "url(/assets/backgrounds/stage-desktop.webp)",
@@ -135,7 +134,7 @@ export function Backdrop() {
       aria-hidden="true"
       data-backdrop-mode={isFallback ? "fallback-image" : "live-layers"}
     >
-      {/* Fallback Mode: Render optimized static baked asset with smooth drifting scale & glow */}
+      {/* Fallback Mode: Render optimized static baked asset with smooth scale & glow */}
       {isFallback ? (
         <div className="absolute inset-0 w-full h-full overflow-hidden">
           <div
@@ -158,11 +157,11 @@ export function Backdrop() {
             transformOrigin: "center center",
           }}
         >
-          {/* Outer Stage Scaling Animation (1 to 1.04, 40s) */}
+          {/* Outer Stage Slow Scaling Animation (1 to 1.04, 40s) */}
           <div className="backdrop-anim-stage absolute inset-0 w-full h-full bg-[#000000]">
             {/* Layer 1: Base #000000 */}
 
-            {/* Layer 2: White Pillar (Centered, Breathing) */}
+            {/* Layer 2: White Pillar ("Element" - Centered, Breathing) */}
             <div
               className="absolute left-1/2 -top-[49.42px] -translate-x-1/2 pointer-events-none"
               style={{
@@ -182,7 +181,7 @@ export function Backdrop() {
               />
             </div>
 
-            {/* Layer 3: Blue Blob (Left) */}
+            {/* Layer 3: Blue Blob (Left - Matrix Transform) */}
             <div
               className="absolute -left-[182.84px] top-[473.61px] pointer-events-none"
               style={{
@@ -203,7 +202,7 @@ export function Backdrop() {
               </div>
             </div>
 
-            {/* Layer 4: Indigo Blob (Right) */}
+            {/* Layer 4: Indigo Blob (Right - Matrix Transform) */}
             <div
               className="absolute left-[576.55px] top-[473.61px] pointer-events-none"
               style={{
@@ -244,7 +243,7 @@ export function Backdrop() {
               />
             </div>
 
-            {/* Layer 6: Ribs ("Lines") Container */}
+            {/* Layer 6: Ribs ("Lines") Group */}
             <div
               className="absolute inset-0 w-full h-full pointer-events-none overflow-hidden"
               style={{
