@@ -59,7 +59,7 @@ export function openDiscord() {
   setTimeout(() => {
     document.removeEventListener("visibilitychange", onVisibilityChange);
     if (!appOpened && !document.hidden) {
-      window.open(webUrl, "_blank", "noopener,noreferrer");
+      window.location.assign(webUrl);
     }
   }, 1500);
 }

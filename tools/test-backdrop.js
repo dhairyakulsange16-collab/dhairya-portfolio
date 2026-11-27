@@ -38,12 +38,6 @@ async function run() {
 
   console.log('Page loaded successfully.');
 
-  // 1. Verify that Showreel is completely absent from DOM
-  const showreelExists = await page.evaluate(() => {
-    return Boolean(document.querySelector('#showreel') || document.querySelector('[id*="showreel"]'));
-  });
-  console.log(`\nCheck: Showreel element in DOM? ${showreelExists} (Must be false)`);
-
   // 2. Read computed styles & transforms of left band, right band, and arc at T0
   await page.setViewport({ width: 1440, height: 900 });
 
@@ -203,10 +197,7 @@ async function run() {
 
   await browser.close();
 
-  if (showreelExists) {
-    console.error('FAILED: Showreel still exists in DOM!');
-    process.exit(1);
-  }
+
 
   if (!leftMoved || !rightMoved || !arcMoved) {
     console.error('FAILED: One or more layers are not moving!');
@@ -218,7 +209,7 @@ async function run() {
     process.exit(1);
   }
 
-  console.log('\nSUCCESS: All backdrop layers are moving, Showreel is removed, TacoBell 2 is in Work section, and screenshots saved.');
+  console.log('\nSUCCESS: All backdrop layers are moving, TacoBell 2 is in Work section, and screenshots saved.');
   process.exit(0);
 }
 

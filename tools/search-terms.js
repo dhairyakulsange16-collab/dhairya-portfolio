@@ -1,7 +1,8 @@
 const fs = require('fs');
 const path = require('path');
 
-const patterns = [/whatsapp/i, /wa\.me/i, /youtube/i, /youtu\.be/i, /\byt\b/i];
+const patterns = process.argv.slice(2).map(term => new RegExp(term, 'i'));
+if (!patterns.length) throw new Error('Pass one or more search expressions.');
 const ignoreDirs = new Set(['node_modules', '.next', '.git', 'dist', 'build']);
 
 function searchDir(dir, matches = []) {

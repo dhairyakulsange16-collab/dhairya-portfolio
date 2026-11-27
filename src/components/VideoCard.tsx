@@ -1,9 +1,8 @@
 "use client";
 
 import React, { useRef, useEffect, useState } from "react";
-import { Play, VolumeX, Sparkles } from "lucide-react";
+import { Play, VolumeX } from "lucide-react";
 import { Project } from "@/data/projects";
-import { safeTrack } from "@/lib/analytics";
 
 interface VideoCardProps {
   project: Project;
@@ -21,7 +20,6 @@ export function VideoCard({
   const cardRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isInView, setIsInView] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
 
   const isVideo = Boolean(project.videoPath);
   const isVertical = project.aspect === "9:16";
@@ -60,28 +58,20 @@ export function VideoCard({
     } else {
       video.pause();
     }
-  }, [shouldPlay]);
+  }, [shouldPlay, isInView]);
 
   const handleMouseEnter = () => {
-    setIsHovered(true);
     onActivate?.(project.id);
   };
 
   const handleMouseLeave = () => {
-    setIsHovered(false);
     if (activePlayingId === project.id) {
       onActivate?.(null);
     }
   };
 
-  const handleTouch = () => {
-    if (activePlayingId !== project.id) {
-      onActivate?.(project.id);
-    }
-  };
-
   const handleClick = () => {
-    safeTrack("video_open", { category: project.category });
+    onActivate?.(null);
     onSelect(project);
   };
 
@@ -91,8 +81,7 @@ export function VideoCard({
       onClick={handleClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
-      onTouchStart={handleTouch}
-      className={`group relative rounded-2xl overflow-hidden cursor-pointer bg-[#050B2E]/60 border border-white/[0.08] transition-all duration-300 hover:border-accent hover:shadow-[0_0_28px_rgba(34,211,238,0.35)] shrink-0 select-none ${
+      className={`archive-card group relative rounded-2xl overflow-hidden cursor-pointer bg-[#050B2E]/60 border border-white/[0.08] transition-all duration-300 hover:border-accent hover:shadow-[0_0_28px_rgba(34,211,238,0.35)] shrink-0 select-none ${
         isVertical
           ? "w-[240px] sm:w-[280px] aspect-[9/16]"
           : "w-full aspect-[16/9]"
@@ -175,20 +164,6 @@ export function VideoCard({
           {project.title}
         </h3>
 
-        {/* Tags */}
-        <div className="mt-2 flex flex-wrap gap-1.5 opacity-80 group-hover:opacity-100 transition-opacity">
-          {project.tags.slice(0, 2).map((tag) => (
-            <span
-              key={tag}
-              className="text-[9px] uppercase tracking-wider text-zinc-400 bg-white/[0.05] px-2 py-0.5 rounded border border-white/5 backdrop-blur-sm"
-            >
-              {tag}
-            </span>
-          ))}
-          <span className="text-[9px] font-mono text-zinc-400 ml-auto">
-            {project.sizeFormatted}
-          </span>
-        </div>
       </div>
     </div>
   );

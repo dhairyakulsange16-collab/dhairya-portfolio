@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
-import { PROJECTS } from "@/data/projects";
+import { PROJECTS, CATEGORY_ORDER } from "@/data/projects";
 import { Award, Film, Users, Zap } from "lucide-react";
 
 interface CounterProps {
@@ -51,20 +51,20 @@ function Counter({ end, suffix = "", duration = 2000 }: CounterProps) {
 }
 
 export function StatsStrip() {
-  const totalProjects = PROJECTS.length || 43;
+  const totalProjects = PROJECTS.length;
 
   const stats = [
     {
       value: totalProjects,
-      suffix: "+",
-      label: "Drive Portfolio Projects",
-      sublabel: "Auto-synced from Google Drive",
+      suffix: "",
+      label: "Portfolio Projects",
+      sublabel: "Films in the work archive",
       icon: Film,
     },
     {
       value: 40,
       suffix: "+",
-      label: "Brands Scaled",
+      label: "Brands",
       sublabel: "Across retail, SaaS & corporate",
       icon: Users,
     },
@@ -76,10 +76,10 @@ export function StatsStrip() {
       icon: Award,
     },
     {
-      value: 10,
-      suffix: "M+",
-      label: "Organic Impressions",
-      sublabel: "Across Brand Socials & Campaigns",
+      value: CATEGORY_ORDER.length,
+      suffix: "",
+      label: "Categories",
+      sublabel: "Across the work archive",
       icon: Zap,
     },
   ];

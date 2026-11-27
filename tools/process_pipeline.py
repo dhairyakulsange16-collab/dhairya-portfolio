@@ -2,11 +2,20 @@ import os
 import re
 import json
 import subprocess
-import shutil
-from concurrent.futures import ThreadPoolExecutor
+from pathlib import Path
+from tempfile import TemporaryDirectory
+from datetime import date
 
-workspace = "E:\\Dhairya\\codes\\Dhairya\\Portfolio"
-json_path = os.path.join(workspace, "local_mapped_drive_files.json")
+
+tools_dir = Path(__file__).resolve().parent
+workspace = tools_dir.parent
+json_path = tools_dir / "local_mapped_drive_files.json"
+catalog_path = workspace / "src/data/projects.ts"
+catalog = catalog_path.read_text(encoding="utf-8")
+entries = re.search(r"export const PROJECTS: Project\[\] = (\[[\s\S]*?\]);", catalog)
+projects = json.loads(entries[1])
+known_ids = {p["driveFileId"] for p in projects}
+
 public_assets = os.path.join(workspace, "public", "assets")
 
 with open(json_path, "r", encoding="utf-8") as f:
@@ -55,6 +64,8 @@ for fslug in folder_slug_map.values():
 metadata_list = []
 
 for item in drive_files:
+    if item["fileId"] in known_ids:
+        continue
     fname = item["fileName"]
     folder = item["folder"]
     folder_slug = folder_slug_map[folder]
@@ -86,7 +97,7 @@ for item in drive_files:
         width = stream.get("width")
         height = stream.get("height")
     except Exception as e:
-        print(f"Probe error on {fname}: {e}")
+        raise RuntimeError(f"Could not probe {fname}") from e
         
     mins = int(duration_sec // 60)
     secs = int(duration_sec % 60)
@@ -96,8 +107,7 @@ for item in drive_files:
         orientation = "9:16 Vertical" if width < height else "16:9 Horizontal"
         res_str = f"{width}x{height}"
     else:
-        orientation = "16:9 Horizontal"
-        res_str = "1920x1080"
+        raise ValueError(f"Missing video dimensions for {fname}")
         
     title = clean_title(fname)
     slug = slugify(fname)
@@ -122,18 +132,6 @@ for item in drive_files:
         "slug": slug
     })
 
-# Print the required table
-print("\n" + "="*125)
-print(f"{'SUBFOLDER':<22} | {'FILE NAME':<34} | {'TYPE':<4} | {'SIZE':<9} | {'DURATION':<8} | {'RESOLUTION':<11} | {'ORIENTATION'}")
-print("="*125)
-for m in metadata_list:
-    f_sub = m["folder"][:21]
-    f_name = m["fileName"][:33]
-    print(f"{f_sub:<22} | {f_name:<34} | {'MP4':<4} | {m['sizeFormatted']:<9} | {m['durationFormatted']:<8} | {m['resolution']:<11} | {m['orientation']}")
-print("="*125)
-print(f"Total Google Drive Files: {len(metadata_list)}\n")
-
-# Process web files with multithreading
 def process_single_video(m):
     fslug = m["folderSlug"]
     slug = m["slug"]
@@ -147,47 +145,26 @@ def process_single_video(m):
     public_video_url = f"/assets/{fslug}/{dest_video_name}"
     public_poster_url = f"/assets/{fslug}/{dest_poster_name}"
     
-    # Generate poster first from original source
-    if not os.path.exists(dest_poster_path) or os.path.getsize(dest_poster_path) < 1000:
-        ss_time = "00:00:01.0" if m["durationSec"] > 1.5 else "00:00:00.1"
-        try:
-            subprocess.run([
-                "ffmpeg", "-y", "-ss", ss_time, "-i", src,
-                "-vframes", "1", "-q:v", "2", dest_poster_path
-            ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
-        except Exception as e:
-            print(f"Poster failed for {slug}: {e}")
+    if any(project["id"] == f"{fslug}-{slug}" for project in projects):
+        raise ValueError(f"Duplicate project slug: {slug}")
+    if Path(dest_video_path).exists() or Path(dest_poster_path).exists():
+        raise FileExistsError(f"Asset destination already exists: {slug}")
 
-    # Generate compressed video
-    if not os.path.exists(dest_video_path) or os.path.getsize(dest_video_path) < 1000:
-        # If original is already reasonable size (< 15MB) and mp4, we can copy or lightly compress
-        if m["sizeBytes"] <= 15 * 1024 * 1024:
-            shutil.copyfile(src, dest_video_path)
-        else:
-            # Re-encode to optimized web size
-            scale_filter = "scale=-2:960" if m["aspect"] == "9:16" else "scale=1280:-2"
-            try:
-                subprocess.run([
-                    "ffmpeg", "-y", "-i", src,
-                    "-vf", scale_filter,
-                    "-c:v", "libx264", "-crf", "26", "-preset", "veryfast",
-                    "-c:a", "aac", "-b:a", "128k",
-                    "-movflags", "+faststart",
-                    dest_video_path
-                ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, check=True)
-            except Exception as e:
-                print(f"Encode failed for {slug}, copying original: {e}")
-                shutil.copyfile(src, dest_video_path)
-
-    # If poster still doesn't exist, try from compressed video
-    if not os.path.exists(dest_poster_path) or os.path.getsize(dest_poster_path) < 1000:
-        try:
-            subprocess.run([
-                "ffmpeg", "-y", "-ss", "00:00:00.1", "-i", dest_video_path,
-                "-vframes", "1", "-q:v", "2", dest_poster_path
-            ], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-        except Exception:
-            pass
+    scale = "scale=-2:960" if m["aspect"] == "9:16" else "scale=1280:-2"
+    with TemporaryDirectory(dir=Path(dest_video_path).parent) as staging:
+        video = Path(staging) / dest_video_name
+        poster = Path(staging) / dest_poster_name
+        subprocess.run(["ffmpeg", "-v", "error", "-i", src, "-vf", scale,
+                        "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "23",
+                        "-c:a", "aac", "-b:a", "128k", "-movflags", "+faststart", str(video)], check=True)
+        if video.stat().st_size > 50_000_000:
+            raise ValueError(f"{slug} exceeds 50 MB. Use a lower bitrate before importing.")
+        subprocess.run(["ffmpeg", "-v", "error", "-ss", str(min(1, m["durationSec"] / 2)),
+                        "-i", str(video), "-frames:v", "1", str(poster)], check=True)
+        if not poster.is_file() or not poster.stat().st_size:
+            raise ValueError(f"No poster frame available for {slug}")
+        video.replace(dest_video_path)
+        poster.replace(dest_poster_path)
 
     return {
         "id": f"{fslug}-{slug}",
@@ -205,72 +182,19 @@ def process_single_video(m):
         "sizeFormatted": m["sizeFormatted"],
         "driveFileId": m["item"]["fileId"],
         "driveFileName": m["fileName"],
+        "dateAdded": date.today().isoformat(),
+        "source": "drive",
         "tags": [m["category"], "Vertical" if m["aspect"] == "9:16" else "Horizontal", "Drive Original"]
     }
 
-print("Encoding web videos and generating posters in parallel (8 threads)...")
-with ThreadPoolExecutor(max_workers=8) as executor:
-    results = list(executor.map(process_single_video, metadata_list))
+for metadata in metadata_list:
+    project = process_single_video(metadata)
+    projects.append(project)
+    array = json.dumps(projects, indent=2, ensure_ascii=False)
+    updated = catalog[:entries.start(1)] + array + catalog[entries.end(1):]
+    with TemporaryDirectory(dir=catalog_path.parent) as staging:
+        staged_catalog = Path(staging) / "projects.ts"
+        staged_catalog.write_text(updated, encoding="utf-8")
+        staged_catalog.replace(catalog_path)
 
-print("All videos and posters generated!")
-
-# Build data files
-data_ts = f'''export interface Project {{
-  id: string;
-  title: string;
-  category: string;
-  folder: string;
-  folderSlug: string;
-  aspect: "9:16" | "16:9";
-  orientation: string;
-  videoPath: string;
-  posterPath: string;
-  duration: string;
-  durationSec: number;
-  resolution: string;
-  sizeFormatted: string;
-  driveFileId: string;
-  driveFileName: string;
-  tags: string[];
-}}
-
-export const CATEGORIES = [
-  "All",
-  "AI UGC Videos",
-  "Animations & Motion",
-  "Gaming Content",
-  "Outdoor Shoots",
-  "Commercial Shoots",
-  "Talking Head & Reels",
-  "Podcasts & Long-Form"
-] as const;
-
-export const PROJECTS: Project[] = {json.dumps(results, indent=2)};
-'''
-
-with open(os.path.join(workspace, "src", "data", "projects.ts"), "w", encoding="utf-8") as f:
-    f.write(data_ts)
-
-with open(os.path.join(workspace, "data", "projects.ts"), "w", encoding="utf-8") as f:
-    f.write(data_ts)
-
-# Verification script
-print("\n--- VERIFICATION STEP (Step 2.9) ---")
-drive_count = len(drive_files)
-site_count = len(results)
-mismatches = 0
-
-for p in results:
-    abs_video = os.path.join(workspace, "public", p["videoPath"].lstrip("/"))
-    abs_poster = os.path.join(workspace, "public", p["posterPath"].lstrip("/"))
-    
-    if not os.path.exists(abs_video) or os.path.getsize(abs_video) < 1000:
-        print(f"[MISMATCH] Missing video: {p['videoPath']}")
-        mismatches += 1
-    if not os.path.exists(abs_poster) or os.path.getsize(abs_poster) < 100:
-        print(f"[MISMATCH] Missing poster: {p['posterPath']}")
-        mismatches += 1
-
-print(f"Drive files found: {drive_count}, videos in site: {site_count}, mismatches: {mismatches}")
-if mismatches == 0:
-    print("VERIFICATION PASSED: All site videos map 100% to authentic Drive files!")
+print(f"Imported {len(metadata_list)} new Drive projects.")
