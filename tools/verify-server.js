@@ -7,8 +7,6 @@ function check() {
     res.on('end', () => {
       console.log('HTTP Status:', res.statusCode);
       console.log('Contains "Dhairya":', data.includes('Dhairya'));
-      console.log('Contains "whatsapp":', data.toLowerCase().includes('whatsapp'));
-      console.log('Contains "youtube":', data.toLowerCase().includes('youtube'));
       console.log('HTML Length:', data.length);
       process.exit(res.statusCode === 200 && data.includes('Dhairya') ? 0 : 1);
     });

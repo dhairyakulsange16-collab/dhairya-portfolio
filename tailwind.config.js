@@ -15,7 +15,7 @@ module.exports = {
           canvas: "#02040A",
         },
         surface: {
-          DEFAULT: "rgba(5, 11, 46, 0.65)",
+          DEFAULT: "rgba(31, 29, 27, 0.65)",
           elevated: "rgba(10, 20, 70, 0.5)",
           border: "rgba(34, 211, 238, 0.15)",
           hover: "rgba(34, 211, 238, 0.25)",
@@ -32,7 +32,7 @@ module.exports = {
           muted: "rgba(34, 211, 238, 0.12)",
         },
         muted: {
-          text: "#9AA8C7", // Soft Gray-Blue
+          text: "#aabbd0", // Soft Gray-Blue
           border: "rgba(154, 168, 199, 0.15)",
         },
       },
