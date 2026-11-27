@@ -3,13 +3,15 @@
 @tailwind utilities;
 
 :root {
-  /* Figma BRIX Gradient Background #1 Tokens */
-  --bg-black: #000000;
-  --bg-blue: #2388FF;
-  --bg-indigo: #4A3AFF;
-  --bg-white: rgba(255, 255, 255, 1);
+  /* Brand Cinematic Palette Tokens */
+  --bg-navy-void: #02040A;
+  --bg-navy-deep: #050B18;
+  --bg-navy-ambient: #0B1936;
+  --bg-electric: #1E5BFF;
+  --bg-cyan: #22D3EE;
+  --bg-cyan-neon: #5CF0FF;
+  --bg-accent-sky: #38BDF8;
   --bg-speed: 1;
-  --bg-scale: 1;
   --scrim: 0;
 
   /* Global Glassmorphism Tokens */
@@ -222,209 +224,284 @@ body {
 }
 
 /* ==========================================================================
-   Figma "Gradient Background #1" (BRIX Templates) Animated Backdrop
+   Cinematic Portfolio Animated Backdrops (Directions 1, 2, 3)
    ========================================================================== */
 
-/* 1. Whole Stage Slow Scaling (40s Alternate) */
-@keyframes backdropStageScale {
+/* --------------------------------------------------------------------------
+   Direction 1: Cinematic Aurora / Fluid Luminous Mesh
+   -------------------------------------------------------------------------- */
+@keyframes auroraMesh1 {
   0% {
-    transform: scale(1) translateZ(0);
+    transform: translate3d(0, 0, 0) rotate(-8deg);
+  }
+  50% {
+    transform: translate3d(40px, -20px, 0) rotate(-4deg);
   }
   100% {
-    transform: scale(1.04) translateZ(0);
+    transform: translate3d(-30px, 35px, 0) rotate(-11deg);
   }
 }
 
-.backdrop-anim-stage {
-  animation: backdropStageScale calc(40s / var(--bg-speed, 1)) ease-in-out infinite alternate;
+.anim-aurora-1 {
+  animation: auroraMesh1 calc(24s / var(--bg-speed, 1)) ease-in-out infinite alternate;
   animation-play-state: running;
-  transform-origin: center center;
   will-change: transform;
   transform: translateZ(0);
 }
 
-/* 2. White Pillar Breathing (14s Alternate) */
-@keyframes backdropPillar {
+@keyframes auroraMesh2 {
   0% {
-    opacity: 0.75;
-    transform: scaleY(1) translateZ(0);
+    transform: translate3d(0, 0, 0) rotate(6deg);
+  }
+  50% {
+    transform: translate3d(-35px, 25px, 0) rotate(10deg);
   }
   100% {
-    opacity: 1;
-    transform: scaleY(1.06) translateZ(0);
+    transform: translate3d(25px, -30px, 0) rotate(3deg);
   }
 }
 
-.backdrop-anim-pillar {
-  animation: backdropPillar calc(14s / var(--bg-speed, 1)) ease-in-out infinite alternate;
+.anim-aurora-2 {
+  animation: auroraMesh2 calc(30s / var(--bg-speed, 1)) ease-in-out infinite alternate;
   animation-play-state: running;
-  transform-origin: top center;
+  will-change: transform;
+  transform: translateZ(0);
+}
+
+@keyframes auroraMesh3 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.14;
+  }
+  50% {
+    transform: translate3d(20px, -15px, 0) scale(1.06);
+    opacity: 0.22;
+  }
+  100% {
+    transform: translate3d(-15px, 20px, 0) scale(0.96);
+    opacity: 0.12;
+  }
+}
+
+.anim-aurora-3 {
+  animation: auroraMesh3 calc(18s / var(--bg-speed, 1)) ease-in-out infinite alternate;
+  animation-play-state: running;
   will-change: transform, opacity;
   transform: translateZ(0);
 }
 
-/* 3. Blue Blob Left Drift (26s Alternate) */
-@keyframes backdropBlobBlue {
+/* --------------------------------------------------------------------------
+   Direction 2: Anamorphic Light Leaks & Lens Flares / 35mm Film Studio
+   -------------------------------------------------------------------------- */
+@keyframes anamorphicFlare1 {
   0% {
-    transform: translate3d(0, 0, 0) rotate(0deg);
+    transform: translate3d(0, 0, 0);
+    opacity: 0.85;
   }
   50% {
-    transform: translate3d(35px, -25px, 0) rotate(2deg);
+    transform: translate3d(25px, -15px, 0);
+    opacity: 1;
   }
   100% {
-    transform: translate3d(-20px, 45px, 0) rotate(-3deg);
+    transform: translate3d(-20px, 20px, 0);
+    opacity: 0.75;
   }
 }
 
-.backdrop-anim-blob-blue {
-  animation: backdropBlobBlue calc(26s / var(--bg-speed, 1)) ease-in-out infinite alternate;
+.anim-flare-1 {
+  animation: anamorphicFlare1 calc(14s / var(--bg-speed, 1)) ease-in-out infinite alternate;
   animation-play-state: running;
-  will-change: transform;
+  will-change: transform, opacity;
   transform: translateZ(0);
 }
 
-/* 4. Indigo Blob Right Drift (32s Alternate) */
-@keyframes backdropBlobIndigo {
+@keyframes anamorphicFlare2 {
   0% {
-    transform: translate3d(0, 0, 0) rotate(0deg);
-  }
-  50% {
-    transform: translate3d(-40px, 30px, 0) rotate(-2.5deg);
-  }
-  100% {
-    transform: translate3d(25px, -35px, 0) rotate(3deg);
-  }
-}
-
-.backdrop-anim-blob-indigo {
-  animation: backdropBlobIndigo calc(32s / var(--bg-speed, 1)) ease-in-out infinite alternate;
-  animation-delay: calc(-14s / var(--bg-speed, 1));
-  animation-play-state: running;
-  will-change: transform;
-  transform: translateZ(0);
-}
-
-/* 5. Center Blue Glow Opacity Pulse (18s Alternate) */
-@keyframes backdropGlow {
-  0% {
+    transform: translate3d(0, 0, 0);
     opacity: 0.70;
   }
-  100% {
-    opacity: 1;
-  }
-}
-
-.backdrop-anim-glow {
-  animation: backdropGlow calc(18s / var(--bg-speed, 1)) ease-in-out infinite alternate;
-  animation-play-state: running;
-  will-change: opacity;
-  transform: translateZ(0);
-}
-
-/* 6. Ribs Subtle Shimmer (8s Alternate) */
-@keyframes backdropRib {
-  0% {
-    opacity: 0.80;
+  50% {
+    transform: translate3d(-30px, 18px, 0);
+    opacity: 0.95;
   }
   100% {
-    opacity: 1;
+    transform: translate3d(15px, -22px, 0);
+    opacity: 0.65;
   }
 }
 
-.backdrop-anim-rib {
-  animation: backdropRib calc(8s / var(--bg-speed, 1)) ease-in-out infinite alternate;
-  animation-play-state: running;
-  will-change: opacity;
-  transform: translateZ(0);
-}
-
-/* 7. Soft Light Sweep Traveling Across Ribs (12s Infinite) */
-@keyframes backdropSweep {
-  0% {
-    transform: translate3d(-300px, 0, 0);
-    opacity: 0;
-  }
-  15% {
-    opacity: 0.7;
-  }
-  85% {
-    opacity: 0.7;
-  }
-  100% {
-    transform: translate3d(1500px, 0, 0);
-    opacity: 0;
-  }
-}
-
-.backdrop-anim-sweep {
-  animation: backdropSweep calc(12s / var(--bg-speed, 1)) ease-in-out infinite;
+.anim-flare-2 {
+  animation: anamorphicFlare2 calc(20s / var(--bg-speed, 1)) ease-in-out infinite alternate;
   animation-play-state: running;
   will-change: transform, opacity;
   transform: translateZ(0);
 }
 
-/* 8. Film Grain 8-Step Shift (1.2s Infinite) */
-@keyframes backdropGrain {
+@keyframes bokehDrift1 {
   0% {
-    transform: translate3d(0, 0, 0);
-  }
-  12.5% {
-    transform: translate3d(-5px, 3px, 0);
-  }
-  25% {
-    transform: translate3d(4px, -2px, 0);
-  }
-  37.5% {
-    transform: translate3d(-3px, -4px, 0);
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.75;
   }
   50% {
-    transform: translate3d(5px, 2px, 0);
-  }
-  62.5% {
-    transform: translate3d(-2px, 5px, 0);
-  }
-  75% {
-    transform: translate3d(3px, -3px, 0);
-  }
-  87.5% {
-    transform: translate3d(-4px, 1px, 0);
+    transform: translate3d(18px, -28px, 0) scale(1.08);
+    opacity: 1;
   }
   100% {
-    transform: translate3d(0, 0, 0);
+    transform: translate3d(-14px, 20px, 0) scale(0.92);
+    opacity: 0.65;
   }
 }
 
-.backdrop-anim-grain {
-  animation: backdropGrain 1.2s steps(8) infinite;
+.anim-bokeh-1 {
+  animation: bokehDrift1 calc(22s / var(--bg-speed, 1)) ease-in-out infinite alternate;
+  animation-play-state: running;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+@keyframes bokehDrift2 {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+    opacity: 0.70;
+  }
+  50% {
+    transform: translate3d(-24px, 32px, 0) scale(0.94);
+    opacity: 0.95;
+  }
+  100% {
+    transform: translate3d(20px, -18px, 0) scale(1.06);
+    opacity: 0.60;
+  }
+}
+
+.anim-bokeh-2 {
+  animation: bokehDrift2 calc(28s / var(--bg-speed, 1)) ease-in-out infinite alternate;
+  animation-play-state: running;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+@keyframes projectorBeam {
+  0% {
+    transform: rotate(0deg) scale(1);
+    opacity: 0.65;
+  }
+  50% {
+    transform: rotate(3deg) scale(1.04);
+    opacity: 0.90;
+  }
+  100% {
+    transform: rotate(-2.5deg) scale(0.97);
+    opacity: 0.55;
+  }
+}
+
+.anim-projector {
+  animation: projectorBeam calc(26s / var(--bg-speed, 1)) ease-in-out infinite alternate;
+  animation-play-state: running;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+/* --------------------------------------------------------------------------
+   Direction 3: Editorial Timeline & Precision Grid
+   -------------------------------------------------------------------------- */
+@keyframes timelineGridPulse {
+  0% {
+    opacity: 0.50;
+  }
+  50% {
+    opacity: 0.75;
+  }
+  100% {
+    opacity: 0.50;
+  }
+}
+
+.anim-timeline-grid {
+  animation: timelineGridPulse calc(12s / var(--bg-speed, 1)) ease-in-out infinite alternate;
+  animation-play-state: running;
+  will-change: opacity;
+  transform: translateZ(0);
+}
+
+@keyframes timelinePlayhead {
+  0% {
+    transform: translate3d(-5vw, 0, 0);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.95;
+  }
+  90% {
+    opacity: 0.95;
+  }
+  100% {
+    transform: translate3d(105vw, 0, 0);
+    opacity: 0;
+  }
+}
+
+.anim-timeline-playhead {
+  animation: timelinePlayhead calc(16s / var(--bg-speed, 1)) cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation-play-state: running;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}
+
+@keyframes timelineAmbientDrift {
+  0% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(30px, -25px, 0) scale(1.08);
+  }
+  100% {
+    transform: translate3d(-25px, 30px, 0) scale(0.95);
+  }
+}
+
+.anim-timeline-ambient {
+  animation: timelineAmbientDrift calc(20s / var(--bg-speed, 1)) ease-in-out infinite alternate;
   animation-play-state: running;
   will-change: transform;
   transform: translateZ(0);
 }
 
-/* 9. Static Fallback Ambient Animation */
-@keyframes backdropFallback {
+/* --------------------------------------------------------------------------
+   Shared Cinematic Elements: 35mm Film Grain
+   -------------------------------------------------------------------------- */
+@keyframes filmGrainShift {
   0% {
-    transform: scale(1) translate3d(0, 0, 0);
-    filter: brightness(1) drop-shadow(0 0 40px rgba(35, 136, 255, 0.4));
+    transform: translate3d(0, 0, 0);
   }
-  50% {
-    transform: scale(1.03) translate3d(15px, -10px, 0);
-    filter: brightness(1.08) drop-shadow(0 0 60px rgba(74, 58, 255, 0.55));
+  20% {
+    transform: translate3d(-3px, 2px, 0);
+  }
+  40% {
+    transform: translate3d(2px, -3px, 0);
+  }
+  60% {
+    transform: translate3d(-2px, -2px, 0);
+  }
+  80% {
+    transform: translate3d(3px, 3px, 0);
   }
   100% {
-    transform: scale(1) translate3d(-10px, 15px, 0);
-    filter: brightness(1) drop-shadow(0 0 40px rgba(35, 136, 255, 0.4));
+    transform: translate3d(0, 0, 0);
   }
 }
 
-.backdrop-anim-fallback {
-  animation: backdropFallback calc(25s / var(--bg-speed, 1)) ease-in-out infinite alternate;
+.anim-film-grain {
+  animation: filmGrainShift 1.4s steps(5) infinite;
   animation-play-state: running;
-  will-change: transform, filter;
+  will-change: transform;
   transform: translateZ(0);
 }
 
-/* Reduced Motion: 3x slower durations rather than freezing */
+/* --------------------------------------------------------------------------
+   Reduced Motion: 3x slower durations rather than freezing
+   -------------------------------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   :root {
     --bg-speed: 0.33;
